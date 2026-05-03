@@ -1,0 +1,439 @@
+[data-bs-theme="dark"] table thead th {
+    background-color: #15263a !important;
+}
+
+[data-bs-theme="dark"] table tbody tr > .dtfc-fixed-left,
+[data-bs-theme="dark"] table.dataTable tbody tr > .dtfc-fixed-right {
+    background-color: #15263a !important;
+}
+
+[data-bs-theme="light"] table tbody tr > .dtfc-fixed-left,
+[data-bs-theme="light"] table.dataTable tbody tr > .dtfc-fixed-right {
+    background-color: white !important;
+}
+
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection {
+    background-color: #111c2d !important;
+}
+
+[data-bs-theme="dark"] .select2-container--bootstrap-5 .select2-selection {
+    background-color: #111c2d !important;
+    border-color: rgba(189, 200, 240, 0.2);
+}
+
+/* ==========mengatasi tersendat saat scrooling =====================*/
+/* html,
+body {
+  -webkit-overflow-scrolling: touch !important;
+  overflow: auto !important;
+  height: 100% !important;
+} */
+/* ==========mengatasi tersendat saat scrooling END ===================== */
+
+/*================Pic Upload Start====================*/
+.auth-login-shape-box::before {
+    content: "";
+    position: absolute;
+    left: -80px;
+    bottom: -80px;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-color: #fb977d;
+}
+
+.auth-login-shape-box::after {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 200px;
+    height: 215px;
+    background-image: url(../../assets/images/background/bglogin_top.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.card-dash-bg-img {
+    position: absolute;
+    width: 100px;
+    top: -30px;
+    right: -20px;
+}
+
+.upload_picture-container {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+
+.upload_picture {
+    width: 150px;
+    height: 150px;
+    background-color: #999999;
+    border: 4px solid #cccccc;
+    color: #ffffff;
+    margin: 0px auto;
+    border-radius: 10%;
+    overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+
+.upload_picture.picture_profile {
+    border-radius: 50%;
+}
+
+.upload_picture:hover {
+    border-color: #2ca8ff;
+}
+
+.upload_picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.upload_picture-src {
+    width: 100%;
+    height: 100%;
+}
+/*================Pic Upload Start====================*/
+
+.btn_frm {
+    font-size: 16px;
+}
+
+.dark-logo,
+.light-logo {
+    width: 35px;
+    height: 35px;
+}
+
+/* SWEET ALERT */
+.swal2-show {
+    width: 400px !important;
+}
+
+.swal2-title,
+.swal2-html-container,
+.swal2-actions {
+    font-size: 14px !important;
+}
+
+.swal2-icon {
+    font-size: 14px;
+}
+
+.login-logo {
+    width: 100%;
+    border-radius: 10px;
+    max-width: 180px;
+    /* margin: auto; */
+    /* display: block; */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* .table .btn-group * {
+  font-size: 100%;
+  font-size: 8px;
+} */
+
+/* .dataTables_scrollHeadInner,
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+} */
+
+.divtable {
+    /* overflow-x: auto !important; */
+    overflow-x: auto;
+    --webkit-overflow-scrolling: touch;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+table {
+    font-size: 0.8rem !important;
+    margin-bottom: 5px !important;
+    width: 100% !important;
+}
+
+table tbody th,
+table tbody td {
+    padding: 3px 5px !important;
+}
+
+.col-hide {
+    display: none !important;
+}
+
+.tbcol-hide {
+    font-size: 0 !important;
+    padding: 0 !important;
+}
+
+/* .dataTables_scroll {
+  overflow: auto;
+} */
+
+table th,
+table td {
+    white-space: nowrap;
+}
+
+/* 
+div.dataTables_wrapper {
+  margin: 0 auto;
+} */
+
+table tbody td {
+    vertical-align: middle;
+}
+
+.last-col {
+    right: 0px !important;
+}
+
+.sticky-col {
+    position: sticky;
+}
+
+.table-detail > thead > tr > th,
+.table-detail > thead > tr > td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+div.dt-container div.dt-search input {
+    width: 50% !important;
+    font-size: 0.9rem;
+}
+
+div.dt-container div.dt-paging {
+    display: flex;
+    justify-content: end;
+}
+
+.dt-buttons {
+    column-gap: 3px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.dt-buttons .btn_index_add {
+    flex: none !important;
+}
+
+.dt-paging * {
+    font-size: 0.75rem !important;
+}
+
+#baction * {
+    font-size: 10px;
+    max-width: fit-content;
+}
+/* 
+.dtfh-floatingparent {
+  width: 100% !important;
+} */
+
+.onlyread {
+    background-color: var(--bs-secondary-bg) !important;
+    opacity: 1 !important;
+}
+
+thead,
+th {
+    text-align-last: center;
+    /* background-color: --bg-primary-subtle; */
+    font-weight: 800;
+}
+
+.spanerror {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: white;
+    background-color: var(--bs-tertiary-color);
+    padding-left: 0.5em;
+}
+
+/* .form-control:read-only {
+  background-color: var(--bs-secondary-bg) !important;
+  opacity: 1;
+} */
+
+.modal-header {
+    background-color: var(--bs-light-primary) !important;
+}
+
+.sidebar-nav
+    ul
+    .sidebar-item
+    .first-level
+    .sidebar-item
+    > .sidebar-link
+    .sidebar-subicon {
+    flex-shrink: 0;
+    margin-left: 17px;
+    margin-right: 10px;
+}
+
+.row_selected,
+.row_selected td {
+    background-color: #1e9eb2 !important;
+    color: white;
+}
+
+/* Summernote Additional CSS */
+.note-editable {
+    background: #fff;
+    font-family: "Plus Jakarta Sans" !important;
+}
+
+.note-btn.dropdown-toggle:after {
+    content: none;
+}
+
+.note-btn[aria-label="Help"] {
+    display: none;
+}
+
+.note-editor .note-toolbar .note-color-all .note-dropdown-menu,
+.note-popover .popover-content .note-color-all .note-dropdown-menu {
+    min-width: 185px;
+}
+
+.note-editor .dropdown-toggle::after {
+    all: unset;
+}
+
+.note-editor .note-dropdown-menu {
+    box-sizing: content-box;
+}
+
+.note-editor .note-modal-footer {
+    box-sizing: content-box;
+}
+
+.btn_tb_li_filter_status.selected > button {
+    font-weight: 900;
+}
+
+.customizer-box label.pick_set_ly {
+    background: lavenderblush !important;
+}
+
+.fl_status.selected,
+.fl_status .selected {
+    background-color: #cee8f7 !important;
+}
+
+@media screen and (max-width: 767px) {
+    div.dt-container div.dt-paging,
+    .dt-buttons {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    /* div.dt-buttons span.dt-button-spacer.empty {
+        margin-top: 0.5rem !important;
+    } */
+
+    .card-body {
+        padding: 15px 15px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .paginationNav {
+        justify-content: center !important;
+    }
+    .div_btn_index_1 {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    div.dt-container div.dt-search input {
+        width: 95% !important;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    table * {
+        font-size: 0.7rem;
+    }
+
+    div.dt-buttons {
+        width: auto !important;
+    }
+
+    #baction * {
+        font-size: 90% !important;
+    }
+
+    h5 {
+        font-size: 97%;
+    }
+
+    .text-menu-group1,
+    .text-menu-group2 {
+        font-size: 87% !important;
+    }
+
+    .form-check-label {
+        font-size: 85%;
+    }
+
+    a,
+    button {
+        font-size: 92% !important;
+    }
+
+    a {
+        height: fit-content;
+    }
+
+    p {
+        font-size: 98%;
+    }
+
+    .form-control {
+        font-size: 97%;
+    }
+
+    .body-wrapper .container-fluid {
+        padding: 0px;
+    }
+
+    /*.left-sidebar * {*/
+    /*    font-size: 98%;*/
+    /*}*/
+
+    /*.simplebar-mask * {*/
+    /*  font-size: 0% !important;*/
+    /*}*/
+
+    /*PROFILE*/
+    .popup-profile {
+        flex-direction: column;
+    }
+
+    .popup-profile,
+    .text-akun {
+        margin-top: 10px;
+        margin-left: 0 !important;
+        text-align: center;
+    }
+}

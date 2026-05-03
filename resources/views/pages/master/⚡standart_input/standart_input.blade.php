@@ -1,0 +1,185 @@
+<div>
+    <div class="card">
+        <div class="card-body">
+            <div class="mt-2 mb-3">
+                <span class="fs-4">Master {{ $lognama }}</span>
+            </div>
+            <div wire:show="showForm">
+                <form wire:submit="save" id="frmdata" class="frmform">
+                    @csrf
+                    <!-- ---------------------------------------------- button --------------------------------------------- -->
+                    <div class="border-bottom pt-3 pb-3 mb-2 d-flex gap-2 btn-group-lg">
+                        <button wire:click="buttonBack" id="buttonBack" type="button"
+                            class="btn btn-primary rounded-1 btn_frm_back" data-toggle="tooltip" data-placement="bottom"
+                            title="Kembali">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        @if ($accessSubMenu->isave == '1')
+                            <button id="btn_save" type="submit" class="btn btn-primary btn_frm btn_frm_save rounded-1"
+                                onclick="loading_alert();" data-toggle="tooltip" data-placement="bottom" title="Simpan">
+                                <i class="far fa-save"></i>
+                            </button>
+                        @endif
+                    </div>
+                    <!-- ---------------------------------------------- button End --------------------------------------------- -->
+                    @if ($id_header)
+                        <div class="row mb-3">
+                            <h5 class="fw-semibold mb-0">
+                                <span class="text-muted text-decoration-none fs-4">Edit</span>
+                            </h5>
+                        </div>
+                    @else
+                        <div class="row mb-3">
+                            <h5 class="fw-semibold mb-0">
+                                <span class="text-muted text-decoration-none fs-4">Tambah</span>
+                            </h5>
+                        </div>
+                    @endif
+
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                        <div class="mb-2">
+                            <label>Nama</label>
+                            <input wire:model="nama" id="nama" type="text"
+                                class="form-control @error('nama') is-invalid @enderror">
+                            @error('nama')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-2 ">
+                            <label>Keterangan</label>
+                            <textarea wire:model="ket" id="ket" type="text" class="form-control @error('ket') is-invalid @enderror"></textarea>
+                            @error('ket')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                        <div class="mb-2">
+                            <label>Status</label>
+                            <div class="input-group">
+                                <input wire:model="f_status_tag" id="f_status_tag" type="text"
+                                    onchange="@this.set('f_status_tag', this.value);"
+                                    class="form-control onlyread @error('f_status') is-invalid @enderror" readonly>
+                                <input wire:model="f_status" id="f_status" name="f_status" type="text"
+                                    onchange="@this.set('f_status', this.value);" class="form-control" hidden>
+                                <button class="btn btn-success listdata" type="button" data-idinput="f_status"
+                                    data-poptitle="Status" data-tblist="list_status" data-type="0"><i
+                                        class="ti ti-search"></i></button>
+                            </div>
+                            @error('f_status')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-2 divOrg">
+                            <label>Org</label>
+                            <div class="input-group">
+                                <input wire:model="f_org_tag" id="f_org_tag" type="text"
+                                    onchange="@this.set('f_org_tag', this.value);"
+                                    class="form-control onlyread @error('f_org') is-invalid @enderror" readonly>
+                                <input wire:model="f_org" id="f_org" type="text" class="form-control"
+                                    onchange="@this.set('f_org', this.value);" hidden>
+                                <button class="btn btn-success listdata" type="button" data-idinput="f_org"
+                                    data-poptitle="Org" data-tblist="list_org" data-type="0"><i
+                                        class="ti ti-search"></i></button>
+                            </div>
+                            @error('f_org')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div wire:show="showTable">
+                <div class="p-3 mb-4">
+                    @include('components.template.tb-filter')
+                    <div class="row divtable">
+                        <table id="tb_m_barang" class="table tbview main-table table-hover table-md table-striped">
+                            <thead class="fw-medium">
+                                <tr>
+                                    <th class="col-hide" width="1%">id</th>
+                                    <th class="print" width="3%">No</th>
+                                    <th class="print" wire:click="sortBy('nama')" style="cursor: pointer;">Nama
+                                        @if ($sortField === 'nama')
+                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </th>
+                                    <th class="print" wire:click="sortBy('ket')" style="cursor: pointer;">
+                                        Keterangan
+                                        @if ($sortField === 'ket')
+                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </th>
+                                    <th class="print" wire:click="sortBy('status')" style="cursor: pointer;">Status
+                                        @if ($sortField === 'status')
+                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </th>
+
+                                    <th class="last-col sticky-col" width="5%">#</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($data_rows as $li_data)
+                                    <tr wire:key="{{ $li_data->id }}">
+                                        <td class="col-hide">{{ $li_data->id }}</td>
+                                        <td>{{ ($data_rows->currentPage() - 1) * $data_rows->perPage() + $loop->index + 1 }}
+                                        </td>
+                                        <td>{{ $li_data->nama }}</td>
+                                        <td>{{ $li_data->ket }}</td>
+                                        <td>{{ $li_data->status }}</td>
+                                        <td class="last-col sticky-col">
+                                            <div class="btn-group btn-group-sm d-flex justify-content-center btn_index gap-1"
+                                                id="baction">
+                                                @if ($accessSubMenu->iedit == 1)
+                                                    <button wire:click="store({{ $li_data->id }})" id="tbedit"
+                                                        class="btn btn-info rounded-1 btn_index_edit"><i
+                                                            class="ti ti-edit fs-1"></i></button>
+                                                @endif
+                                                @if ($accessSubMenu->idelete == 1 && $li_data->f_status == 2)
+                                                    <button id="tbdelete" data-id="{{ $li_data->id }}"
+                                                        class="btn btn-danger rounded-1 btn_index_delete"><i
+                                                            class="ti ti-trash fs-1"></i></button>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    @include('components.template.no-data-table')
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-end fs-4">
+                        {{ $data_rows->links(data: ['scrollTo' => false]) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@include('components.template.delete-table')
+{{-- <livewire:template.delete-table /> --}}
+
+
+<script>
+    // ================================== RE INSTALL JQUERY ==================================
+    $(document).ready(function() {
+
+
+    });
+    // ================================== RE INSTALL JQUERY END==================================
+
+    // ============================= POPUP MODAL LIST =============================
+    $(document).on('click', ".listdata", function(e) {
+        $list_tbilst = $(this).data('tblist');
+
+        if ($list_tbilst == 'list_status') {
+            $("#listmodal_custom1").val("1").change();
+        }
+    });
+    // ============================= POPUP MODAL LIST END =============================
+</script>

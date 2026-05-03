@@ -1,0 +1,16 @@
+#main-wrapper {
+  min-height: 100vh;
+}
+
+.card-umum {
+  min-height: 93vh;
+  margin-bottom: 0px !important;
+}
+
+.dampingan-menu {
+  max-width: 480px;
+}
+
+.umun-body {
+  max-width: 992px;
+}
