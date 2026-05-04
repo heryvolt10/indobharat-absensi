@@ -59,7 +59,20 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $query .= " ORDER BY A.nama ";
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.nama) AS row_num, ZZ.nama, ZZ.ket, ZZ.status FROM(" . $query . ") ZZ";
         }
+
+
         // =========================== TABLE STANDAR END ===================================
+        if ($this->submenu_id == 'mt_ptkp') {
+            $query = \App\Models\M_mt_ptkp::detail(null, 1, $this->filterSearch, $this->filterStatus);
+            $query .= " ORDER BY A.nama ";
+            $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.nama) AS row_num, ZZ.nama, ZZ.ter_grup, ZZ.ket, ZZ.status FROM(" . $query . ") ZZ";
+        }
+
+        if ($this->submenu_id == 'mt_ter_ptkp') {
+            $query = \App\Models\M_mt_ter_ptkp::detail(null, 1, $this->filterSearch, $this->filterStatus);
+            $query .= " ORDER BY A.grup ";
+            $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.grup) AS row_num, ZZ.grup, ZZ.nilai, ZZ.persen, ZZ.status FROM(" . $query . ") ZZ";
+        }
 
         if ($this->submenu_id == '3') {
             $query = \App\Models\M_users_role::detail(null, 1, $this->filterSearch, $this->filterStatus);
@@ -128,6 +141,26 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
                 'Status',
             ];
         } else {
+            if ($this->submenu_id == 'mt_ptkp') {
+                $dataHeader  =  [
+                    'No',
+                    'Nama',
+                    'ter_grup',
+                    'Keterangan',
+                    'Status',
+                ];
+            }
+
+            if ($this->submenu_id == 'mt_ter_ptkp') {
+                $dataHeader  =  [
+                    'No',
+                    'grup',
+                    'nilai',
+                    'persen',
+                    'Status',
+                ];
+            }
+
             if ($this->submenu_id == '4') {
                 $dataHeader  =  [
                     'No',

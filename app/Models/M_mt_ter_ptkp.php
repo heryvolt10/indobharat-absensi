@@ -18,7 +18,6 @@ class M_mt_ter_ptkp extends Model
 
     protected $fillable = [
         'uuid',
-        'nama',
         'grup',
         'nilai',
         'persen',
@@ -45,7 +44,7 @@ class M_mt_ter_ptkp extends Model
     public static function detail($id = null, $onlyquery = null, $filterSearch = null, $filterStatus = null, $formodallist = null)
     {
 
-        $query = "SELECT A.*, B.nama as status, C.nama as org
+        $query = "SELECT A.*, A.nilai as nama, B.nama as status, C.nama as org
                 FROM mt_ter_ptkp A
                 INNER JOIN mt_status B ON B.id = A.f_status
                 INNER JOIN mt_org C ON C.id = A.f_org
@@ -65,12 +64,13 @@ class M_mt_ter_ptkp extends Model
         if ($filterSearch) {
             if ($formodallist == 1) {
                 $query .= " AND ( ";
-                $query .= " A.name like '%" . $filterSearch . "%' ";
+                $query .= " A.grup like '%" . $filterSearch . "%' ";
                 $query .= " ) ";
             } else {
                 $query .= " AND ( ";
-                $query .= " A.nama like '%" . $filterSearch . "%' OR ";
-                $query .= " A.ket like '%" . $filterSearch . "%' ";
+                $query .= " A.grup like '%" . $filterSearch . "%' OR ";
+                $query .= " A.nilai like '%" . $filterSearch . "%' OR ";
+                $query .= " A.persen like '%" . $filterSearch . "%' ";
                 $query .= " ) ";
             }
         }
@@ -78,7 +78,7 @@ class M_mt_ter_ptkp extends Model
         if ($onlyquery) {
             return $query;
         } else {
-            $query .= " ORDER BY A.nama ";
+            $query .= " ORDER BY A.grup ";
             $result = DB::select($query);
 
             return $result[0];

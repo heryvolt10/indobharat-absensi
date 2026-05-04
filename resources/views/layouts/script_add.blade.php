@@ -417,7 +417,7 @@
         });
     }
     // UNTUK PERUBAHAN FILTER STATUS TABLE
-    function changeStyleFilterStatus($idStatus) {
+    function changeStyleFilterStatus($idStatus, $textStatus = null) {
         if ($idStatus == "" || $idStatus == undefined) {
             $idStatus = 0;
         }
@@ -425,7 +425,14 @@
         $(document).ready(function() {
             $(".btn_tb_li_filter_status").removeClass("selected");
             $(".btn_tb_li_filter_status[data-id=" + $idStatus + "]").addClass("selected");
+            $(".badge-filter-status").text('');
+            // if ($textStatus !== null) {
+            $(".badge-filter-status").text($textStatus);
+            // }
         });
+
+
+
     }
 
     // UNTUK BUTTON TABLE INDEX

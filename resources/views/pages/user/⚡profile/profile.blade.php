@@ -55,7 +55,7 @@
     <div class="tab-content mx-10" id="pills-tabContent">
         <div class="tab-pane tab1 fade {{ $activeTab == 'tab1' ? 'show active' : '' }}" id="pills-tab1" role="tabpanel"
             aria-labelledby="pills-tab1-tab" tabindex="0">
-            <div class="col-sm-4">
+            {{-- <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body p-4">
 
@@ -80,7 +80,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
 

@@ -23,12 +23,6 @@ new class extends Component {
         }
     }
 
-    // public function ly_theme($value)
-    // {
-    //     session()->put('ly_theme', $value);
-    //     // $this->dispatch('dp-update-logo-sidebar');
-    // }
-
     public function click_theme($value)
     {
         session()->put('ly_theme', $value);
@@ -164,13 +158,13 @@ new class extends Component {
                             </li>
                             <li class="nav-item">
                                 <button wire:click="click_theme('light')" wire:show="showLight" wire:cloak
-                                    class="nav-link nav-icon-hover sun light-layout" data-name="light">
+                                    class="nav-link nav-icon-hover sun light-layout" data-name="light" wire:transition>
                                     <iconify-icon icon="solar:sun-2-line-duotone" class="sun fs-7"></iconify-icon>
                                 </button>
 
                                 <button wire:click="click_theme('dark')"
                                     class="nav-link nav-icon-hover moon dark-layout" wire:show="showDark" wire:cloak
-                                    data-name="dark">
+                                    data-name="dark" wire:transition>
                                     <iconify-icon icon="solar:moon-line-duotone" class="moon fs-7"></iconify-icon>
                                 </button>
                             </li>

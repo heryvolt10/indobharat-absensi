@@ -7,6 +7,8 @@ new class extends Component {
     // public $data_sidebar_menu, $data_sidebar_submenu;
     public $showLight, $showDark;
     public $url_logoLight, $url_logoDark;
+    public $activeMenu = null,
+        $activeChild = null;
 
     #[On('dp-update-logo-sidebar')]
     public function mount()
@@ -29,6 +31,12 @@ new class extends Component {
             'data_sidebar_menu' => help_user_access_menu(),
             'data_sidebar_submenu' => help_user_access_submenu(),
         ]);
+    }
+
+    public function setActive($menuId, $childId = null)
+    {
+        $this->activeMenu = $menuId;
+        $this->activeChild = $childId;
     }
 };
 ?>
@@ -79,22 +87,25 @@ new class extends Component {
             <nav class="sidebar-nav">
                 <ul id="sidebarnav" class="mb-0">
                     @foreach ($data_sidebar_menu as $sidebar_menu)
-                        <li class="sidebar-item " wire:key='{{ $sidebar_menu->id }}'>
-                            <a class="sidebar-link has-arrow primary-hover-bg " href="javascript:void(0)"
-                                aria-expanded="false">
+                        <li class="sidebar-item" wire:key='menu-{{ $sidebar_menu->id }}'
+                            data-menuid="{{ $sidebar_menu->id }}">
+                            <a class="sidebar-link has-arrow primary-hover-bg" href="javascript:void(0)"
+                                aria-expanded="false" data-menuid="{{ $sidebar_menu->id }}">
                                 <span class="aside-icon p-2 bg-success-subtle rounded-1">
                                     <iconify-icon icon="{{ $sidebar_menu->icon }}" class="fs-6"></iconify-icon>
                                 </span>
                                 <span class="hide-menu ps-1">{{ $sidebar_menu->nama }}</span>
                             </a>
-                            <ul aria-expanded="false" class="collapse first-level ">
+
+                            <ul aria-expanded="false" class="collapse first-level"
+                                data-menuid="{{ $sidebar_menu->id }}">
                                 @foreach ($data_sidebar_submenu as $sidebar_submenu)
                                     @if ($sidebar_menu->id == $sidebar_submenu->f_menu)
-                                        <li class="sidebar-item" wire:key='{{ $sidebar_submenu->id }}'>
+                                        <li class="sidebar-item " wire:key='submenu-{{ $sidebar_submenu->id }}'
+                                            data-submenuid="{{ $sidebar_submenu->id }}">
                                             <a wire:navigate id="sidebar_submenu" href="/{{ $sidebar_submenu->url }}"
-                                                class="sidebar-link" data-id="{{ $sidebar_submenu->id }}">
-                                                <iconify-icon icon="{{ $sidebar_submenu->icon }}"
-                                                    class="fs-6 sidebar-subicon"></iconify-icon>
+                                                class="sidebar-link " data-submenuid="{{ $sidebar_submenu->id }}">
+                                                <i class="{{ $sidebar_submenu->icon }} fs-1 sidebar-subicon"></i>
                                                 <span class="hide-menu">{{ $sidebar_submenu->nama }}</span>
                                             </a>
                                         </li>
@@ -132,3 +143,43 @@ new class extends Component {
     </aside>
     <!--  Sidebar End -->
 </div>
+
+
+@push('scripts')
+    <script>
+        $sessMenuId = "{{ session('menu_id') }}";
+        $sessSubMenuId = "{{ session('submenu_id') }}";
+
+        $(document).ready(function() {
+            if ($sessMenuId) {
+                $('li.sidebar-item[data-menuid="' + $sessMenuId + '"]').addClass('selected');
+                $('a.sidebar-link[data-menuid="' + $sessMenuId + '"]').addClass('active');
+                $('ul.first-level[data-menuid="' + $sessMenuId + '"]').addClass('in');
+            }
+
+            if ($sessSubMenuId) {
+                $('li.sidebar-item[data-submenuid="' + $sessSubMenuId + '"]').addClass('active');
+                $('a.sidebar-link[data-submenuid="' + $sessSubMenuId + '"]').addClass('active');
+            }
+        });
+
+
+        $("#sidebarnav a").on("click", function(e) {
+            if (!$(this).hasClass("active")) {
+                // hide any open menus and remove all other classes
+                $("ul", $(this).parents("ul:first")).removeClass("in");
+                $("a", $(this).parents("ul:first")).removeClass("active");
+                // open our new menu and add the open class
+                $(this).next("ul").addClass("in");
+                $(this).addClass("active");
+            } else if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+                $(this).parents("ul:first").removeClass("active");
+                $(this).next("ul").removeClass("in");
+            }
+        });
+        $("#sidebarnav >li >a.has-arrow").on("click", function(e) {
+            e.preventDefault();
+        });
+    </script>
+@endpush

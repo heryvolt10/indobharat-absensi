@@ -167,6 +167,10 @@ function help_user_access_submenu($submenuid = null)
                 FROM users_submenu A
                 INNER JOIN users_menu B ON B.id = A.f_menu WHERE A.f_status = 2";
 
+        if ($submenuid) {
+            $query .= " AND A.id = $submenuid ";
+        }
+
         $query .= " ORDER BY B.seq, A.seq ";
 
         if ($submenuid) {
@@ -243,6 +247,26 @@ function help_get_status($type)
 
 
     return $data;
+}
+
+function help_get_status_by_id($id)
+{
+
+    $query = "SELECT * FROM mt_status
+    WHERE 1 =1 ";
+
+    if ($id) {
+        $query .= " AND id = $id ";
+    }
+
+
+    $data = DB::select($query);
+
+    if ($data) {
+        return $data[0];
+    } else {
+        return '';
+    }
 }
 
 

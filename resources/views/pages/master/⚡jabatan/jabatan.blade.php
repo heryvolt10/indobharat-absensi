@@ -17,7 +17,7 @@
 
                                     <th class="print" wire:click="sortBy('ket')" style="cursor: pointer;">Keterangan
                                         @if ($sortField === 'ket')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th width="5%">Status</th>
@@ -25,6 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @forelse ($data_rows as $li_data)
                                     <tr wire:key='{{ $li_data->id }}'>
                                         <td class="col-hide">{{ $li_data->id }}</td>

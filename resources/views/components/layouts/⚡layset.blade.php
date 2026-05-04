@@ -8,6 +8,8 @@ new class extends Component {
     public function ly_theme($value)
     {
         session()->put('ly_theme', $value);
+        $this->dispatch('dp-update-logo-topbar');
+        $this->dispatch('dp-update-logo-sidebar');
     }
 
     public function ly_sidebar($value)

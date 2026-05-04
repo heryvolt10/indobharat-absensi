@@ -41,6 +41,11 @@
     </script>
 
 
+    <script>
+        $(document).ready(function() {
+            $sessSubmenuUrl = "{{ session('submenu_url') }}";
+        });
+    </script>
 
     @if (session()->has('dataflash'))
         <script>

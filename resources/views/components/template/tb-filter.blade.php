@@ -13,6 +13,9 @@
                 <button type="button" class="btn btn-primary rounded-1 " data-bs-toggle="dropdown"
                     aria-expanded="false" data-toggle="tooltip" data-placement="bottom" title="Filter Status">
                     <i class="ti ti-filter"></i>
+                    <span class="translate-middle badge-filter-status fs-1">
+                        {{ $filterStatus == '' ? 'semua' : help_get_status_by_id($filterStatus)->nama }}
+                    </span>
                 </button>
 
                 <input id="filterStatus" type="hidden" wire:model='filterStatus'>
@@ -21,7 +24,7 @@
                     @foreach ($tb_list_status as $data_status)
                         <li class="btn_tb_li_filter_status" data-id="{{ $data_status->id }}">
                             <button type="button" class="dropdown-item"
-                                x-on:click="$wire.set('filterStatus', {{ $data_status->id }}), changeStyleFilterStatus({{ $data_status->id }})"
+                                x-on:click="$wire.set('filterStatus', {{ $data_status->id }}), changeStyleFilterStatus({{ $data_status->id }}, '{{ $data_status->nama }}')"
                                 value="{{ $data_status->id }}">{{ $data_status->nama }}
                             </button>
                         </li>
@@ -31,7 +34,7 @@
                     </li>
                     <li class="btn_tb_li_filter_status" data-id="0">
                         <button type="button" class="dropdown-item"
-                            x-on:click="$wire.set('filterStatus', ''), changeStyleFilterStatus(0)">Semua</button>
+                            x-on:click="$wire.set('filterStatus', ''), changeStyleFilterStatus(0,'Semua')">Semua</button>
                     </li>
                 </ul>
             </div>
