@@ -28,23 +28,23 @@
                     id="pills-tab" role="tablist">
                     <li class="nav-item me-2 me-md-3" role="presentation">
                         <button wire:click="selectTab('tab1')"
-                            class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent py-6 {{ $activeTab == 'tab1' ? 'active' : '' }}"
+                            class="gap-1 nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent py-6 {{ $activeTab == 'tab1' ? 'active' : '' }}"
                             id="pills-tab1-tab" data-bs-toggle="pill" data-bs-target="#pills-tab1" type="button"
                             role="tab" aria-controls="pills-tab1"
                             aria-selected="{{ $activeTab == 'tab1' ? 'true' : 'false' }}">
-                            <i class="fas fa-dashboard me-0 me-md-6  fs-6"></i>
-                            <span class="d-none d-md-block">Dashboard</span>
+                            <i class="ti ti-dashboard me-0 me-md-6 fs-6"></i>
+                            <span class=" d-md-block">Dashboard</span>
                         </button>
                     </li>
 
                     <li class="nav-item me-2 me-md-3" role="presentation">
                         <button wire:click="selectTab('tab2')"
-                            class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent py-6 {{ $activeTab == 'tab2' ? 'active' : '' }}"
+                            class="gap-1 nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent py-6 {{ $activeTab == 'tab2' ? 'active' : '' }}"
                             id="pills-tab2-tab" data-bs-toggle="pill" data-bs-target="#pills-tab2" type="button"
                             role="tab" aria-controls="pills-tab2"
                             aria-selected="{{ $activeTab == 'tab2' ? 'true' : 'false' }}">
-                            <i class="ti ti-settings me-0 me-md-6  fs-6"></i>
-                            <span class="d-none d-md-block">Setting</span>
+                            <i class="ti ti-settings me-0 me-md-6 fs-6 "></i>
+                            <span class=" d-md-block">Setting</span>
                         </button>
                     </li>
 

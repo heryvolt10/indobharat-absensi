@@ -9,7 +9,6 @@ use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\IndexExport;
 use App\Models\M_mt_ter_ptkp;

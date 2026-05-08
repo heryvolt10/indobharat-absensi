@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Web icon-->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/org/setting_app/favicon-light.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/org/setting_app/favicon-light.png') }}"
+        as="image" />
     <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ asset('assets/images/org/setting_app/favicon-32x32.png') }}">
+        href="{{ asset('assets/images/org/setting_app/favicon-32x32.png') }}" as="image" />
     <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ asset('assets/images/org/setting_app/favicon-16x16.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ asset('assets/images/org/setting_app/favicon-180x180.png') }}">
+        href="{{ asset('assets/images/org/setting_app/favicon-16x16.png') }}" as="image" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/org/setting_app/favicon-180x180.png') }}"
+        as="image" />
     <meta property="og:url" content="url('/')" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $title ?? config('app.name') }}" />
@@ -36,32 +37,37 @@
     <script data-navigate-once src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
 
 
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/styleadmin.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/css/styleadmin.css') }}" as="style" />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-    <link rel="stylesheet" href="{{ asset('assets/css/icon/fontawesome-all.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+        as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/css/icon/fontawesome-all.css') }}" as="style" />
 
 
     <!-- Select 2 -->
-    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}" as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2bootstrap5.css') }}" as="style" />
 
     <!-- daterangepicker -->
     <link rel="stylesheet" href="{{ asset('assets/libs/datepicker/datepicker.css') }}" />
 
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/jquery.dataTables.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/buttons.dataTables.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/buttons.bootstrap5.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/fixedColumns.dataTables.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/fixedHeader.dataTables.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/jquery.dataTables.min.css') }}" as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/buttons.dataTables.min.css') }}"
+        as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/buttons.bootstrap5.min.css') }}"
+        as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/fixedColumns.dataTables.min.css') }}"
+        as="style" />
+    <link rel="stylesheet" href="{{ asset('assets/libs/datatables/css/fixedHeader.dataTables.min.css') }}"
+        as="style" />
 
     <!-- Input mask -->
-    <script data-navigate-once src="{{ asset('assets/libs/inputmask/inputmask.min.js') }}"></script>
-    <script data-navigate-once src="{{ asset('assets/libs/moment/moment.min.js') }}"></script>
-    <script data-navigate-once src="{{ asset('assets/libs/datepicker/datepicker.min.js') }}"></script>
+    <script data-navigate-once src="{{ asset('assets/libs/inputmask/inputmask.min.js') }}" as="script"></script>
+    <script data-navigate-once src="{{ asset('assets/libs/moment/moment.min.js') }}" as="script"></script>
+    <script data-navigate-once src="{{ asset('assets/libs/datepicker/datepicker.min.js') }}" as="script"></script>
 
     <link
         href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.3.7/af-2.7.1/b-3.2.6/b-colvis-3.2.6/b-html5-3.2.6/b-print-3.2.6/cr-2.1.2/cc-1.2.1/date-1.6.3/fc-5.0.5/fh-4.0.6/kt-2.12.2/r-3.0.8/rg-1.6.0/rr-1.5.1/sc-2.4.3/sb-1.8.4/sp-2.3.5/sl-3.1.3/sr-1.4.3/datatables.min.css"
