@@ -38,7 +38,7 @@ class Setting_appSeeder extends Seeder
                 ],
                 [
                     'name' => 'app_website',
-                    'value' => 'www.aplikasi.com',
+                    'value' => 'www.pt-indobharatrayon.com',
                     'label' => 'Website',
                     'type' => 'text',
                     'for_setting' => 1,
@@ -52,7 +52,7 @@ class Setting_appSeeder extends Seeder
                 ],
                 [
                     'name' => 'app_org',
-                    'value' => 'PT. Aplikasi',
+                    'value' => 'PT. INDO BHARAT RAYON',
                     'label' => 'Perusahaan',
                     'type' => 'text',
                     'for_setting' => 1,

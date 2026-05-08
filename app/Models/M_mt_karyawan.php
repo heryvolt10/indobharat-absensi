@@ -30,6 +30,7 @@ class M_mt_karyawan extends Model
         'tgl_bekerja',
         'f_divisi',
         'f_jabatan',
+        'f_grade',
         'f_role',
         'f_gender',
         'f_agama',
@@ -57,17 +58,18 @@ class M_mt_karyawan extends Model
     public static function detail($id = null, $onlyquery = null, $filterSearch = null, $filterStatus = null, $formodallist = null)
     {
 
-        $query = "SELECT A.*, B.nama as status, C.nama as org, D.nama as divisi, E.nama as jabatan, F.nama as role, G.nama as gender, 
-                H.nama as agama, I.nama as ptkp, I.nilai as ptkp_nilai   
+        $query = "SELECT A.*, B.nama as status, C.nama as org, D.nama as role, E.nama as divisi, F.nama as jabatan, G.nama as grade, H.nama as gender, 
+                I.nama as agama, J.nama as ptkp, J.nilai as ptkp_nilai
                 FROM mt_karyawan A
                 INNER JOIN mt_status B ON B.id = A.f_status
                 INNER JOIN mt_org C ON C.id = A.f_org
-                INNER JOIN mt_divisi D ON D.id = A.f_divisi
-                INNER JOIN mt_jabatan E ON E.id = A.f_jabatan
-                INNER JOIN users_role F ON F.id = A.f_role
-                INNER JOIN mt_gender G ON G.id = A.f_gender
-                INNER JOIN mt_agama H ON H.id = A.f_agama
-                INNER JOIN mt_ptkp I ON I.id = A.f_ptkp
+                INNER JOIN users_role D ON D.id = A.f_role
+                INNER JOIN mt_divisi E ON E.id = A.f_divisi
+                INNER JOIN mt_jabatan F ON F.id = A.f_jabatan
+                INNER JOIN mt_grade G ON G.id = A.f_grade
+                INNER JOIN mt_gender H ON H.id = A.f_gender
+                INNER JOIN mt_agama I ON I.id = A.f_agama
+                INNER JOIN mt_ptkp J ON J.id = A.f_ptkp
                 WHERE 1 = 1
                 ";
 
@@ -100,7 +102,8 @@ class M_mt_karyawan extends Model
                 $query .= " F.nama like '%" . $filterSearch . "%' OR ";
                 $query .= " G.nama like '%" . $filterSearch . "%' OR ";
                 $query .= " H.nama like '%" . $filterSearch . "%' OR ";
-                $query .= " I.nama like '%" . $filterSearch . "%' ";
+                $query .= " I.nama like '%" . $filterSearch . "%' OR ";
+                $query .= " J.nama like '%" . $filterSearch . "%' ";
                 $query .= " ) ";
             }
         }

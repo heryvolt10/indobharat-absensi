@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users_access_menu', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->foreignId('f_role')->constrained(table: 'users_role')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('f_submenu')->constrained(table: 'users_submenu')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_role')->constrained(table: 'users_role')->onUpdate('cascade');
+            $table->foreignId('f_submenu')->constrained(table: 'users_submenu')->onUpdate('cascade');
             $table->tinyInteger('ishow')->default(0);
             $table->tinyInteger('iadd')->default(0);
             $table->tinyInteger('isave')->default(0);

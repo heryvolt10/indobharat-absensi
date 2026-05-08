@@ -50,7 +50,11 @@
                                             {{ $sortDir === 'asc' ? '↑' : '↓' }}
                                         @endif
                                     </th>
-
+                                    <th class="print" wire:click="sortBy('grade')" style="cursor: pointer;">Grade
+                                        @if ($sortField === 'grade')
+                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                        @endif
+                                    </th>
                                     <th class="print" wire:click="sortBy('no_npwp')" style="cursor: pointer;">No NPWP
                                         @if ($sortField === 'no_npwp')
                                             {{ $sortDir === 'asc' ? '↑' : '↓' }}
@@ -108,6 +112,7 @@
                                         <td>{{ $li_data->alamat }}</td>
                                         <td>{{ $li_data->divisi }}</td>
                                         <td>{{ $li_data->jabatan }}</td>
+                                        <td>{{ $li_data->grade }}</td>
                                         <td>{{ $li_data->no_npwp }}</td>
                                         <td>{{ $li_data->no_bpjs }}</td>
                                         <td>{{ $li_data->tgl_bekerja }}</td>
@@ -267,6 +272,22 @@
                                         class="ti ti-search"></i></button>
                             </div>
                             @error('f_jabatan')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-2">
+                            <label>Grade</label>
+                            <div class="input-group">
+                                <input wire:model="f_grade_tag" id="f_grade_tag" type="text"
+                                    onchange="@this.set('f_grade_tag', this.value);"
+                                    class="form-control onlyread @error('f_grade') is-invalid @enderror" readonly>
+                                <input wire:model="f_grade" id="f_grade" name="f_grade" type="text"
+                                    onchange="@this.set('f_grade', this.value);" class="form-control" hidden>
+                                <button class="btn btn-success listdata" type="button" data-idinput="f_grade"
+                                    data-poptitle="grade" data-tblist="list_grade" data-type="0"><i
+                                        class="ti ti-search"></i></button>
+                            </div>
+                            @error('f_grade')
                                 <div class="spanerror">{{ $message }}</div>
                             @enderror
                         </div>

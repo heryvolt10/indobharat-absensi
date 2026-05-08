@@ -20,10 +20,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('f_role')->default('2')->constrained(table: 'users_role')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_role')->default('2')->constrained(table: 'users_role')->onUpdate('cascade');
             $table->string('image')->default('assets/images/user/default.jpg');
-            $table->foreignId('f_status')->default(2)->constrained(table: 'mt_status')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('f_org')->default(1)->constrained(table: 'mt_org')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_status')->default(2)->constrained(table: 'mt_status')->onUpdate('cascade');
+            $table->foreignId('f_org')->default(1)->constrained(table: 'mt_org')->onUpdate('cascade');
             $table->string('create')->nullable();
             $table->string('update')->nullable();
             $table->timestamps();

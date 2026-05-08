@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('nama')->unique();
             $table->string('ket', length: 500)->nullable();
-            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade');
+            $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade');
             $table->string('create')->nullable();
             $table->string('update')->nullable();
             $table->timestamps();

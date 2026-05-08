@@ -28,7 +28,9 @@ new class extends Component
         $currentPage = Paginator::resolveCurrentPage(); //
 
         $query = M_mt_table::detail('', 1, $this->filterSearch);
-        $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        if ($this->sortField !== '') {
+            $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        }
         $allRecords = DB::select($query);
         $totalRecords = count($allRecords);
 

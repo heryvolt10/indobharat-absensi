@@ -34,6 +34,15 @@ class Mt_users_roleSeeder extends Seeder
                     'create' => NULL,
                     'update' => NULL,
                 ],
+                [
+                    'uuid' => Str::uuid(),
+                    'nama' => 'KARYAWAN',
+                    'ket' => NULL,
+                    'f_status' => '2',
+                    'f_org' => '1',
+                    'create' => NULL,
+                    'update' => NULL,
+                ],
             ]
         );
     }

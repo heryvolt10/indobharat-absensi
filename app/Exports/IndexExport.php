@@ -60,6 +60,12 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.nama) AS row_num, ZZ.nama, ZZ.ket, ZZ.status FROM(" . $query . ") ZZ";
         }
 
+        if ($this->submenu_id == 'mt_periode') {
+            $query = \App\Models\M_mt_periode::detail(null, 1, $this->filterSearch, $this->filterStatus);
+            $query .= " ORDER BY A.tanggal ";
+            $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.nama) AS row_num, ZZ.tanggal, ZZ.tanggal_mulai, ZZ.status, ZZ.org FROM(" . $query . ") ZZ";
+        }
+
 
         // =========================== TABLE STANDAR END ===================================
         if ($this->submenu_id == 'mt_ptkp') {
@@ -109,7 +115,7 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $query = \App\Models\M_mt_karyawan::detail(null, 1, $this->filterSearch, $this->filterStatus);
             $query .= " ORDER BY A.nama ";
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.f_org ASC, ZZ.nama) AS row_num, ZZ.nama, ZZ.NIK, ZZ.no_npwp, ZZ.no_bpjs, ZZ.nama_bank, ZZ.no_rek, ZZ.nama_rek, 
-            ZZ.alamat, ZZ.tgl_bekerja, ZZ.divisi, ZZ.jabatan, ZZ.role, ZZ.gender, ZZ.agama, ZZ.ptkp, ZZ.org, ZZ.status FROM(" . $query . ") ZZ";
+            ZZ.alamat, ZZ.tgl_bekerja, ZZ.divisi, ZZ.jabatan, ZZ.grade, ZZ.role, ZZ.gender, ZZ.agama, ZZ.ptkp, ZZ.org, ZZ.status FROM(" . $query . ") ZZ";
         }
 
         if ($this->submenu_id == '14') {
@@ -122,6 +128,12 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $query = \App\Models\M_mt_jabatan::detail(null, 1, $this->filterSearch, $this->filterStatus);
             $query .= " ORDER BY A.nama ";
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.f_org ASC, ZZ.nama) AS row_num, ZZ.nama, ZZ.ket, ZZ.status FROM(" . $query . ") ZZ";
+        }
+
+        if ($this->submenu_id == '16') {
+            $query = \App\Models\M_mt_grade::detail(null, 1, $this->filterSearch, $this->filterStatus);
+            $query .= " ORDER BY A.nama ";
+            $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.f_org ASC, ZZ.nama) AS row_num, ZZ.nama, ZZ.no_lembur, ZZ.ket, ZZ.status FROM(" . $query . ") ZZ";
         }
 
         $result = DB::select($queryAll);
@@ -158,6 +170,16 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
                     'nilai',
                     'persen',
                     'Status',
+                ];
+            }
+
+            if ($this->submenu_id == 'mt_periode') {
+                $dataHeader  =  [
+                    'No',
+                    'Tanggal',
+                    'Tanggal Mulai',
+                    'Status',
+                    'Org',
                 ];
             }
 
@@ -220,10 +242,22 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
                     'Tanggal Berkerja',
                     'Divisi',
                     'Jabatan',
+                    'Grade',
                     'Role',
                     'Gender',
                     'Agama',
                     'PTKP',
+                    'Org',
+                    'Status',
+                ];
+            }
+
+            if ($this->submenu_id == '16') {
+                $dataHeader  =  [
+                    'No',
+                    'Nama',
+                    'Tidak Ada Lembur',
+                    'Keterangan',
                     'Org',
                     'Status',
                 ];

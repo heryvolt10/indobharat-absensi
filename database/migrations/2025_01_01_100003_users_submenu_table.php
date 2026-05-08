@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('icon');
             $table->tinyInteger('seq')->default(1);
             $table->string('url')->unique();
-            $table->foreignId('f_menu')->constrained(table: 'users_menu')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_menu')->constrained(table: 'users_menu')->onUpdate('cascade');
+            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade');
+            $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade');
             $table->string('create')->nullable();
             $table->string('update')->nullable();
             $table->timestamps();

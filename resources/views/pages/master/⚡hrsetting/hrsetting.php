@@ -11,16 +11,17 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\IndexExport;
+use App\Models\M_mt_periode;
 use App\Models\M_mt_ter_ptkp;
 
 new class extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $id_header, $nama, $ket, $grup, $nilai, $persen, $f_status, $f_status_tag, $f_org, $f_org_tag;
+    public $id_header, $nama, $ket, $grup, $nilai, $persen, $tanggal, $tanggal_mulai, $f_status, $f_status_tag, $f_org, $f_org_tag;
 
     public $filterSearch = '', $filterStatus = '2', $listCount = '0';
-    public $sortField = 'nama', $sortDir = 'ASC';
+    public $sortField = '', $sortDir = '';
 
     public $valid_role, $valid_mesage;
 
@@ -49,9 +50,10 @@ new class extends Component
             $this->listCount = $totalRecords;
             $paginator = "";
         } else if ($this->activeTab === 'tab2') {
-
             $query = M_mt_ptkp::detail('', 1, $this->filterSearch, $this->filterStatus);
-            $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            if ($this->sortField !== '') {
+                $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            }
             $allRecords = DB::select($query);
             $totalRecords = count($allRecords);
             $this->listCount = $totalRecords;
@@ -65,9 +67,10 @@ new class extends Component
                 'query' => request()->query(),
             ]);
         } else if ($this->activeTab === 'tab3') {
-
             $query = M_mt_ter_ptkp::detail('', 1, $this->filterSearch, $this->filterStatus);
-            $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            if ($this->sortField !== '') {
+                $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            }
             $allRecords = DB::select($query);
             $totalRecords = count($allRecords);
             $this->listCount = $totalRecords;
@@ -81,12 +84,24 @@ new class extends Component
                 'query' => request()->query(),
             ]);
         } else {
-            $this->sortField = 'nama';
-            $query = "";
-            $allRecords = "";
-            $totalRecords = 0;
+
+            $query = M_mt_periode::detail('', 1, $this->filterSearch, $this->filterStatus);
+            if ($this->sortField !== '') {
+                $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            }
+
+            $allRecords = DB::select($query);
+            $totalRecords = count($allRecords);
             $this->listCount = $totalRecords;
-            $paginator = "";
+
+            // 2. Manually slice the array
+            $offset = $currentPage * $perPage - $perPage;
+            $itemsForCurrentPage = array_slice($allRecords, $offset, $perPage);
+            // 3. Instantiate LengthAwarePaginator
+            $paginator = new LengthAwarePaginator($itemsForCurrentPage, $totalRecords, $perPage, $currentPage, [
+                'path' => request()->path(),
+                'query' => request()->query(),
+            ]);
         }
 
         return $this->view([
@@ -132,6 +147,14 @@ new class extends Component
                 $this->f_org = $data_render->f_org;
                 $this->f_org_tag = $data_render->org;
             } else {
+                $data_render =  M_mt_periode::detail($this->id_header);
+                $this->id_header = $data_render->id;
+                $this->tanggal = $data_render->tanggal;
+                $this->tanggal_mulai = $data_render->tanggal_mulai;
+                $this->f_status = $data_render->f_status;
+                $this->f_status_tag = $data_render->status;
+                $this->f_org = $data_render->f_org;
+                $this->f_org_tag = $data_render->org;
             }
         }
 
@@ -161,7 +184,14 @@ new class extends Component
                 'f_org' => 'required',
             ];
         } else {
+            $this->valid_role = [
+                'tanggal' => 'required',
+                'tanggal_mulai' => 'required',
+                'f_status' => 'required',
+                'f_org' => 'required',
+            ];
         }
+
 
         $this->valid_mesage = [
             'required' => 'Harus di isi',
@@ -170,6 +200,12 @@ new class extends Component
         ];
 
         $validator = Validator::make($this->all(), $this->valid_role, $this->valid_mesage);
+
+        if ($this->activeTab == 'tab4') {
+            if ($this->tanggal_mulai > 28) {
+                $validator->errors()->add('tanggal_mulai', 'Harus diantara 1 - 28');
+            }
+        }
 
         // ==================================== VALID INPUT =======================================
         if ($validator->errors()->count() > 0) {
@@ -198,7 +234,12 @@ new class extends Component
                         'f_org' => $this->f_org,
                     ];
                 } else {
-                    $data_store = "";
+                    $data_store = [
+                        'tanggal' => $this->tanggal,
+                        'tanggal_mulai' => $this->tanggal_mulai,
+                        'f_status' => $this->f_status,
+                        'f_org' => $this->f_org,
+                    ];
                 }
 
 
@@ -215,7 +256,7 @@ new class extends Component
                     } else if ($this->activeTab === 'tab3') {
                         $execDB = M_mt_ter_ptkp::create($data_output);
                     } else {
-                        $execDB = "";
+                        $execDB = M_mt_periode::create($data_output);
                     }
 
 
@@ -234,7 +275,7 @@ new class extends Component
                     } else if ($this->activeTab === 'tab3') {
                         $execDB = M_mt_ter_ptkp::withTrashed()->findOrFail($this->id_header)->update($data_output);
                     } else {
-                        $execDB = "";
+                        $execDB = M_mt_periode::withTrashed()->findOrFail($this->id_header)->update($data_output);
                     }
 
 
@@ -255,7 +296,7 @@ new class extends Component
 
     public function sortBy($field)
     {
-        if ($this->activeTab === 'tab2' || $this->activeTab === 'tab3') {
+        if ($this->activeTab !== 'tab1') {
             if ($this->sortField === $field) {
                 $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
             } else {
@@ -307,6 +348,15 @@ new class extends Component
                 $postDelete->update();
             }
 
+
+            if ($this->activeTab === 'tab4') {
+                $postDelete = M_mt_periode::withTrashed()->findOrFail($id);
+                $postDelete->delete();
+
+                $postDelete->f_status = 1;
+                $postDelete->update();
+            }
+
             $this->dispatch('sweet-alert', icon: 'success', title: 'Data Berhasil Di Hapus', text: '');
         } catch (\Exception $th) {
             $this->dispatch('sweet-alert', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
@@ -328,9 +378,9 @@ new class extends Component
             $headStandar = 0; //0 Header Not Standar, 1 Head Standar
             $submenu_id = 'mt_ter_ptkp';
         } else {
-            $titleExport = 'Master' . ' ' . session('submenu_nama');
-            $headStandar = 1; //0 Header Not Standar, 1 Head Standar
-            $submenu_id = session('submenu_id');
+            $titleExport = 'Master' . ' ' . ' Periode';
+            $headStandar = 0; //0 Header Not Standar, 1 Head Standar
+            $submenu_id = 'mt_periode';
         }
 
         $papersize = 3;

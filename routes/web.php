@@ -54,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     // MASTER JABATAN
     Route::livewire('/' . help_submenu(15)->url, 'pages::master.jabatan')->name(help_submenu(15)->url . '.index');
 
+    // MASTER GRADE
+    Route::livewire('/' . help_submenu(16)->url, 'pages::master.grade')->name(help_submenu(16)->url . '.index');
+
     // MASTER HR & PAYROLL SETTING
     Route::livewire('/' . help_submenu(17)->url, 'pages::master.hrsetting')->name(help_submenu(17)->url . '.index');
 

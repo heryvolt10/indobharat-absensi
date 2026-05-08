@@ -21,7 +21,7 @@ class Mt_tableSeeder extends Seeder
                     'nama' => 'Status',
                     'set_table' => 'mt_status',
                     'i_standar' => 1,
-                    'f_submenu' => NULL,
+                    'f_submenu' => 1,
                     'f_status' => 2,
                 ],
                 [
@@ -29,7 +29,7 @@ class Mt_tableSeeder extends Seeder
                     'nama' => 'Unit',
                     'set_table' => 'mt_unit',
                     'i_standar' => 1,
-                    'f_submenu' => NULL,
+                    'f_submenu' => 1,
                     'f_status' => 2,
                 ],
                 [
@@ -37,7 +37,7 @@ class Mt_tableSeeder extends Seeder
                     'nama' => 'Gender',
                     'set_table' => 'mt_gender',
                     'i_standar' => 1,
-                    'f_submenu' => NULL,
+                    'f_submenu' => 1,
                     'f_status' => 2,
                 ],
             ]

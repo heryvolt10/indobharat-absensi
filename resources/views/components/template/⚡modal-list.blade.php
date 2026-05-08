@@ -101,6 +101,11 @@ new class extends Component {
                 $query .= ' AND A.f_status <> 1 ';
                 $query .= ' ORDER BY A.nama ';
             }
+            if ($this->listmodal_tblist == 'list_grade') {
+                $query = \App\Models\M_mt_grade::detail(null, 1, $this->modalListfilterSearch, null);
+                $query .= ' AND A.f_status <> 1 ';
+                $query .= ' ORDER BY A.nama ';
+            }
             if ($this->listmodal_tblist == 'list_role') {
                 $query = \App\Models\M_users_role::detail(null, 1, $this->modalListfilterSearch, null);
                 $query .= ' AND A.f_status <> 1 ';

@@ -18,7 +18,7 @@ new class extends Component
     use WithPagination, WithoutUrlPagination;
 
     public $id_header, $nama, $NIK, $no_npwp, $no_bpjs, $nama_bank, $no_rek, $nama_rek, $alamat, $tgl_bekerja,
-        $f_divisi, $f_divisi_tag,  $f_jabatan, $f_jabatan_tag,  $f_role, $f_role_tag,  $f_gender, $f_gender_tag,
+        $f_divisi, $f_divisi_tag,  $f_jabatan, $f_jabatan_tag,  $f_grade, $f_grade_tag,  $f_role, $f_role_tag,  $f_gender, $f_gender_tag,
         $f_agama, $f_agama_tag,  $f_ptkp, $f_ptkp_tag,
         $f_status, $f_status_tag, $f_org, $f_org_tag;
 
@@ -41,7 +41,9 @@ new class extends Component
         $currentPage = Paginator::resolveCurrentPage();
 
         $query = M_mt_karyawan::detail('', 1, $this->filterSearch, $this->filterStatus);
-        $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        if ($this->sortField !== '') {
+            $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        }
         $allRecords = DB::select($query);
         $totalRecords = count($allRecords);
         $this->listCount = $totalRecords;
@@ -88,6 +90,8 @@ new class extends Component
             $this->f_divisi_tag = $data_render->divisi;
             $this->f_jabatan = $data_render->f_jabatan;
             $this->f_jabatan_tag = $data_render->jabatan;
+            $this->f_grade = $data_render->f_grade;
+            $this->f_grade_tag = $data_render->grade;
             $this->f_role = $data_render->f_role;
             $this->f_role_tag = $data_render->role;
             $this->f_gender = $data_render->f_gender;
@@ -121,6 +125,7 @@ new class extends Component
             'tgl_bekerja' => 'required',
             'f_divisi' => 'required',
             'f_jabatan' => 'required',
+            'f_grade' => 'required',
             'f_role' => 'required',
             'f_gender' => 'required',
             'f_agama' => 'required',
@@ -157,6 +162,7 @@ new class extends Component
                     'tgl_bekerja' => $this->tgl_bekerja,
                     'f_divisi' => $this->f_divisi,
                     'f_jabatan' => $this->f_jabatan,
+                    'f_grade' => $this->f_grade,
                     'f_role' => $this->f_role,
                     'f_gender' => $this->f_gender,
                     'f_agama' => $this->f_agama,

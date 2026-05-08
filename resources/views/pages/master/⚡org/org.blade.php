@@ -128,7 +128,7 @@
                             <div class="form-check fs-3">
                                 <input wire:model="i_pusat" class="form-check-input" type="checkbox"
                                     @if ($i_pusat == 1) checked @endif id="i_pusat">
-                                <label class="form-check-label" for="i_pusat">Head Officec</label>
+                                <label class="form-check-label" for="i_pusat">Sebagai Head Office</label>
                             </div>
                             @error('i_pusat')
                                 <div class="spanerror">{{ $message }}</div>

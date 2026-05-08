@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('kontak_person')->nullable();
             $table->string('image')->nullable();
             $table->tinyInteger('i_pusat')->nullable()->default(0);
-            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade');
             $table->string('create')->nullable();
             $table->string('update')->nullable();
             $table->timestamps();
@@ -38,6 +38,7 @@ return new class extends Migration
 
         Schema::table('mt_org', function (Blueprint $table) {
             $table->dropForeign(['f_status']);
+            $table->dropColumn(['f_status']);
         });
     }
 };

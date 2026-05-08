@@ -37,7 +37,9 @@ new class extends Component
         $currentPage = Paginator::resolveCurrentPage(); //
 
         $query = M_mt_org::detail('', 1, $this->filterSearch, $this->filterStatus);
-        $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        if ($this->sortField !== '') {
+            $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+        }
         $allRecords = DB::select($query);
         $totalRecords = count($allRecords);
         $this->listCount = $totalRecords;
