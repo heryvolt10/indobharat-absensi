@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             // Mt_agamaSeeder::class,
             // Mt_tableSeeder::class,
             // Mt_ter_ptkpSeeder::class,
-            Mt_ptkpSeeder::class,
+            // Mt_ptkpSeeder::class,
+            Mt_warga_negaraSeeder::class,
         ]);
 
 

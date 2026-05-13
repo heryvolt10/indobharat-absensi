@@ -31,7 +31,7 @@
                                         <td>{{ $li_data->nama }}</td>
                                         <td>{{ $li_data->ket }}</td>
                                         <td>{{ $li_data->status }}</td>
-                                        @include('components.template.tbview-button-1')
+                                        @include('components.template.tbview-button')
                                     </tr>
                                 @empty
                                     @include('components.template.no-data-table')

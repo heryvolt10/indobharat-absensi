@@ -58,7 +58,7 @@
                                         <td>{{ $li_data->alamat }}</td>
                                         <td>{{ $li_data->kontak_person }}</td>
                                         <td>{{ $li_data->status }}</td>
-                                        @include('components.template.tbview-button-1')
+                                        @include('components.template.tbview-button')
                                     </tr>
                                 @empty
                                     @include('components.template.no-data-table')

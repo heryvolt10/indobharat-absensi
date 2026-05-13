@@ -11,7 +11,7 @@
                                 <th class="print" width="3%">No</th>
                                 <th class="print" wire:click="sortBy('nama')" style="cursor: pointer;">Master Data
                                     @if ($sortField === 'nama')
-                                        {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                        {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                     @endif
                                 </th>
                                 <th class="last-col sticky-col" width="5%">#</th>

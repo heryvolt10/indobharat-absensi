@@ -117,6 +117,12 @@ new class extends Component {
                 $query .= ' ORDER BY A.nama ';
             }
 
+            if ($this->listmodal_tblist == 'list_warga_negara') {
+                $query = \App\Models\M_mt_warga_negara::detail(null, 1, $this->modalListfilterSearch, null);
+                $query .= ' AND A.f_status <> 1 ';
+                $query .= ' ORDER BY A.nama ';
+            }
+
             $this->modallistHeader = [(object) ['data' => 'list-nomor', 'title' => 'No', 'className' => '', 'width' => '2%'], (object) ['data' => 'list-pilih', 'title' => 'Pilih', 'className' => 'idpick', 'width' => '3%'], (object) ['data' => 'id', 'title' => 'id', 'className' => 'id col-hide', 'width' => '1%'], (object) ['data' => 'nama', 'title' => 'Nama', 'className' => 'nama', 'width' => ''], (object) ['data' => 'f_org', 'title' => 'Kode Org', 'className' => 'f_org' . $this->ses_user_frole == 1 ? '' : ' col-hide', 'width' => ''], (object) ['data' => 'org', 'title' => 'Org', 'className' => 'org' . $this->ses_user_frole == 1 ? '' : ' col-hide', 'width' => '']];
         } else {
             // if ($this->listmodal_tblist == 'list_akun') {

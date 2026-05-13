@@ -66,6 +66,11 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.nama) AS row_num, ZZ.tanggal, ZZ.tanggal_mulai, ZZ.status, ZZ.org FROM(" . $query . ") ZZ";
         }
 
+        if ($this->submenu_id == 'mt_component') {
+            $query = \App\Models\M_mt_pay_component::detail(null, 1, $this->filterSearch, $this->filterStatus);
+            $query .= " ORDER BY A.kode ";
+            $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.kode) AS row_num, ZZ.kode, ZZ.pay_tipe, ZZ.pay_grup, ZZ.pay_set, ZZ.pay_tax,ZZ.nilai, ZZ.ket_rumusan, ZZ.ket, ZZ.ket2, ZZ.ket3, ZZ.status FROM(" . $query . ") ZZ";
+        }
 
         // =========================== TABLE STANDAR END ===================================
         if ($this->submenu_id == 'mt_ptkp') {
@@ -115,7 +120,7 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
             $query = \App\Models\M_mt_karyawan::detail(null, 1, $this->filterSearch, $this->filterStatus);
             $query .= " ORDER BY A.nama ";
             $queryAll = "SELECT ROW_NUMBER() OVER (ORDER BY ZZ.f_org ASC, ZZ.nama) AS row_num, ZZ.nama, ZZ.NIK, ZZ.no_npwp, ZZ.no_bpjs, ZZ.nama_bank, ZZ.no_rek, ZZ.nama_rek, 
-            ZZ.alamat, ZZ.tgl_bekerja, ZZ.divisi, ZZ.jabatan, ZZ.grade, ZZ.role, ZZ.gender, ZZ.agama, ZZ.ptkp, ZZ.org, ZZ.status FROM(" . $query . ") ZZ";
+            ZZ.alamat, ZZ.tgl_bekerja, ZZ.warga_negara, ZZ.divisi, ZZ.jabatan, ZZ.grade, ZZ.role, ZZ.gender, ZZ.agama, ZZ.ptkp, ZZ.org, ZZ.status FROM(" . $query . ") ZZ";
         }
 
         if ($this->submenu_id == '14') {
@@ -183,6 +188,22 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
                 ];
             }
 
+            if ($this->submenu_id == 'mt_pay_component') {
+                $dataHeader  =  [
+                    'No',
+                    'Kode',
+                    'Tipe',
+                    'Grup',
+                    'Set',
+                    'Tax',
+                    'Nilai',
+                    'Ket Rumusan',
+                    'Ket',
+                    'Ket2',
+                    'Ket3',
+                ];
+            }
+
             if ($this->submenu_id == '4') {
                 $dataHeader  =  [
                     'No',
@@ -240,6 +261,7 @@ class IndexExport implements FromCollection, WithHeadings, WithStyles, WithDefau
                     'Pemilik Rek',
                     'Alamat',
                     'Tanggal Berkerja',
+                    'Warga Negara',
                     'Divisi',
                     'Jabatan',
                     'Grade',

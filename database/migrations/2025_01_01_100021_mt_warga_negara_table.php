@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mt_periode', function (Blueprint $table) {
+        Schema::create('mt_warga_negara', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->date('tanggal')->unique()->index();
-            $table->integer('tanggal_mulai')->nullable();
+            $table->string('nama')->unique();
+            $table->string('ket', length: 500)->nullable();
             $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade');
             $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade');
             $table->string('create')->nullable();
@@ -30,8 +30,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mt_periode');
-        Schema::table('mt_periode', function (Blueprint $table) {
+        Schema::dropIfExists('mt_warga_negara');
+        Schema::table('mt_warga_negara', function (Blueprint $table) {
             $table->dropForeign(['f_status', 'f_org']);
             $table->dropColumn(['f_status', 'f_org']);
         });

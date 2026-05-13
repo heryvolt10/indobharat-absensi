@@ -29,21 +29,6 @@
                                     <th width="5%">Status</th>
                                     <th class="last-col sticky-col" width="5%">#</th>
                                 </tr>
-
-                                {{-- <tr>
-                                    @foreach ($list_table as $tblist)
-                                        @if ($tblist->sort == '1')
-                                            <th class="{{ $tblist->class }}" wire:click="sortBy('{{ $tblist->data }}')"
-                                                style="cursor: pointer;">
-                                                {{ $tblist->title }} @if ($sortField === $tblist->data)
-                                                    {{ $sortDir === 'asc' ? '↑' : '↓' }}
-                                                @endif
-                                            </th>
-                                        @else
-                                            <th class="{{ $tblist->class }}">{{ $tblist->title }}</th>
-                                        @endif
-                                    @endforeach
-                                </tr> --}}
                             </thead>
                             <tbody>
                                 @forelse ($data_rows as $li_data)
@@ -58,7 +43,7 @@
                                         <td>{{ $li_data->org }}</td>
                                         <td class="col-hide">{{ $li_data->f_status }}</td>
                                         <td>{{ $li_data->status }}</td>
-                                        @include('components.template.tbview-button-1')
+                                        @include('components.template.tbview-button')
                                     </tr>
                                 @empty
                                     @include('components.template.no-data-table')

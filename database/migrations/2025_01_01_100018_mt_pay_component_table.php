@@ -11,11 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mt_periode', function (Blueprint $table) {
+        Schema::create('mt_pay_component', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->date('tanggal')->unique()->index();
-            $table->integer('tanggal_mulai')->nullable();
+            $table->string('kode')->unique()->index();
+            $table->string('pay_tipe')->index()->nullable();
+            $table->string('pay_grup')->index()->nullable();
+            $table->string('pay_set')->index()->nullable();
+            $table->string('pay_tax')->index()->nullable();
+            $table->decimal('nilai', 18, 2)->default(0.00);
+            $table->text('ket_rumusan')->nullable();
+            $table->text('ket')->nullable();
+            $table->text('ket2')->nullable();
+            $table->text('ket3')->nullable();
             $table->foreignId('f_status')->constrained(table: 'mt_status')->onUpdate('cascade');
             $table->foreignId('f_org')->constrained(table: 'mt_org')->onUpdate('cascade');
             $table->string('create')->nullable();
@@ -30,8 +38,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mt_periode');
-        Schema::table('mt_periode', function (Blueprint $table) {
+        Schema::dropIfExists('mt_pay_component');
+        Schema::table('mt_pay_component', function (Blueprint $table) {
             $table->dropForeign(['f_status', 'f_org']);
             $table->dropColumn(['f_status', 'f_org']);
         });

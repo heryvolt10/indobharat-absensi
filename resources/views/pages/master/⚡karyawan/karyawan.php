@@ -18,8 +18,9 @@ new class extends Component
     use WithPagination, WithoutUrlPagination;
 
     public $id_header, $nama, $NIK, $no_npwp, $no_bpjs, $nama_bank, $no_rek, $nama_rek, $alamat, $tgl_bekerja,
-        $f_divisi, $f_divisi_tag,  $f_jabatan, $f_jabatan_tag,  $f_grade, $f_grade_tag,  $f_role, $f_role_tag,  $f_gender, $f_gender_tag,
+        $f_divisi, $f_divisi_tag,  $f_jabatan, $f_jabatan_tag, $f_grade, $f_grade_tag, $f_role, $f_role_tag,  $f_gender, $f_gender_tag,
         $f_agama, $f_agama_tag,  $f_ptkp, $f_ptkp_tag,
+        $f_warga_negara, $f_warga_negara_tag,
         $f_status, $f_status_tag, $f_org, $f_org_tag;
 
     public $filterSearch = '', $filterStatus = '2', $listCount = '0';
@@ -86,6 +87,8 @@ new class extends Component
             $this->nama_rek = $data_render->nama_rek;
             $this->alamat = $data_render->alamat;
             $this->tgl_bekerja = $data_render->tgl_bekerja;
+            $this->f_warga_negara = $data_render->f_warga_negara;
+            $this->f_warga_negara_tag = $data_render->warga_negara;
             $this->f_divisi = $data_render->f_divisi;
             $this->f_divisi_tag = $data_render->divisi;
             $this->f_jabatan = $data_render->f_jabatan;
@@ -123,6 +126,7 @@ new class extends Component
             'nama_rek' => 'required|max:250',
             'alamat' => 'required|max:250',
             'tgl_bekerja' => 'required',
+            'f_warga_negara' => 'required',
             'f_divisi' => 'required',
             'f_jabatan' => 'required',
             'f_grade' => 'required',
@@ -160,6 +164,7 @@ new class extends Component
                     'nama_rek' => $this->nama_rek,
                     'alamat' => $this->alamat,
                     'tgl_bekerja' => $this->tgl_bekerja,
+                    'f_warga_negara' => $this->f_warga_negara,
                     'f_divisi' => $this->f_divisi,
                     'f_jabatan' => $this->f_jabatan,
                     'f_grade' => $this->f_grade,

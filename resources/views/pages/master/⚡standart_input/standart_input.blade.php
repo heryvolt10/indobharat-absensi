@@ -100,18 +100,18 @@
                                     <th class="print" width="3%">No</th>
                                     <th class="print" wire:click="sortBy('nama')" style="cursor: pointer;">Nama
                                         @if ($sortField === 'nama')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('ket')" style="cursor: pointer;">
                                         Keterangan
                                         @if ($sortField === 'ket')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('status')" style="cursor: pointer;">Status
                                         @if ($sortField === 'status')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
 

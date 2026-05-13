@@ -28,6 +28,7 @@ class M_mt_karyawan extends Model
         'nama_rek',
         'alamat',
         'tgl_bekerja',
+        'f_warga_negara',
         'f_divisi',
         'f_jabatan',
         'f_grade',
@@ -35,6 +36,7 @@ class M_mt_karyawan extends Model
         'f_gender',
         'f_agama',
         'f_ptkp',
+        'tunjangan',
         'f_status',
         'f_org',
         'create',
@@ -59,17 +61,18 @@ class M_mt_karyawan extends Model
     {
 
         $query = "SELECT A.*, B.nama as status, C.nama as org, D.nama as role, E.nama as divisi, F.nama as jabatan, G.nama as grade, H.nama as gender, 
-                I.nama as agama, J.nama as ptkp, J.nilai as ptkp_nilai
+                I.nama as agama, J.nama as ptkp, J.nilai as ptkp_nilai, K.nama as warga_negara
                 FROM mt_karyawan A
-                INNER JOIN mt_status B ON B.id = A.f_status
-                INNER JOIN mt_org C ON C.id = A.f_org
-                INNER JOIN users_role D ON D.id = A.f_role
-                INNER JOIN mt_divisi E ON E.id = A.f_divisi
-                INNER JOIN mt_jabatan F ON F.id = A.f_jabatan
-                INNER JOIN mt_grade G ON G.id = A.f_grade
-                INNER JOIN mt_gender H ON H.id = A.f_gender
-                INNER JOIN mt_agama I ON I.id = A.f_agama
-                INNER JOIN mt_ptkp J ON J.id = A.f_ptkp
+                LEFT JOIN mt_status B ON B.id = A.f_status
+                LEFT JOIN mt_org C ON C.id = A.f_org
+                LEFT JOIN users_role D ON D.id = A.f_role
+                LEFT JOIN mt_divisi E ON E.id = A.f_divisi
+                LEFT JOIN mt_jabatan F ON F.id = A.f_jabatan
+                LEFT JOIN mt_grade G ON G.id = A.f_grade
+                LEFT JOIN mt_gender H ON H.id = A.f_gender
+                LEFT JOIN mt_agama I ON I.id = A.f_agama
+                LEFT JOIN mt_ptkp J ON J.id = A.f_ptkp
+                LEFT JOIN mt_warga_negara K ON K.id = A.f_warga_negara
                 WHERE 1 = 1
                 ";
 
@@ -103,7 +106,8 @@ class M_mt_karyawan extends Model
                 $query .= " G.nama like '%" . $filterSearch . "%' OR ";
                 $query .= " H.nama like '%" . $filterSearch . "%' OR ";
                 $query .= " I.nama like '%" . $filterSearch . "%' OR ";
-                $query .= " J.nama like '%" . $filterSearch . "%' ";
+                $query .= " J.nama like '%" . $filterSearch . "%' OR ";
+                $query .= " K.nama like '%" . $filterSearch . "%' ";
                 $query .= " ) ";
             }
         }

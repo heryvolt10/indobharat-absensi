@@ -17,7 +17,7 @@
 
                                     <th class="print" wire:click="sortBy('ket')" style="cursor: pointer;">Keterangan
                                         @if ($sortField === 'ket')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th width="5%">Status</th>
@@ -34,7 +34,7 @@
                                         <td>{{ $li_data->ket }}</td>
                                         <td class="col-hide">{{ $li_data->f_status }}</td>
                                         <td>{{ $li_data->status }}</td>
-                                        @include('components.template.tbview-button-1')
+                                        @include('components.template.tbview-button')
                                     </tr>
                                 @empty
                                     @include('components.template.no-data-table')

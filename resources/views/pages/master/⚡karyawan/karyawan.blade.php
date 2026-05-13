@@ -12,13 +12,12 @@
                                     <th width="1%">No</th>
                                     <th class="print" wire:click="sortBy('org')" style="cursor: pointer;">Org
                                         @if ($sortField === 'org')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
-
                                     <th class="print" wire:click="sortBy('NIK')" style="cursor: pointer;">NIK
                                         @if ($sortField === 'NIK')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th wire:click="sortBy('nama')" style="cursor: pointer;">Nama @if ($sortField === 'nama')
@@ -27,71 +26,78 @@
                                     </th>
                                     <th class="print" wire:click="sortBy('gender')" style="cursor: pointer;">Gender
                                         @if ($sortField === 'gender')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('agama')" style="cursor: pointer;">Agama
                                         @if ($sortField === 'agama')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('alamat')" style="cursor: pointer;">Alamat
                                         @if ($sortField === 'alamat')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
+                                        @endif
+                                    </th>
+                                    <th class="print" wire:click="sortBy('warga_negara')" style="cursor: pointer;">
+                                        Warga Negara
+                                        @if ($sortField === 'warga_negara')
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('divisi')" style="cursor: pointer;">Divisi
                                         @if ($sortField === 'divisi')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('jabatan')" style="cursor: pointer;">Jabatan
                                         @if ($sortField === 'jabatan')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('grade')" style="cursor: pointer;">Grade
                                         @if ($sortField === 'grade')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('no_npwp')" style="cursor: pointer;">No NPWP
                                         @if ($sortField === 'no_npwp')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('no_bpjs')" style="cursor: pointer;">No BPJS
                                         @if ($sortField === 'no_bpjs')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('tgl_bekerja')" style="cursor: pointer;">
                                         Tanggal Berkerja
                                         @if ($sortField === 'tgl_bekerja')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
+
                                     <th class="print" wire:click="sortBy('ptkp')" style="cursor: pointer;">PTKP
                                         @if ($sortField === 'ptkp')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('nama_bank')" style="cursor: pointer;">Nama
                                         Bank
                                         @if ($sortField === 'nama_bank')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('no_rek')" style="cursor: pointer;">No
                                         Rek
                                         @if ($sortField === 'no_rek')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th class="print" wire:click="sortBy('nama_rek')" style="cursor: pointer;">Pemilik
                                         Rek
                                         @if ($sortField === 'nama_rek')
-                                            {{ $sortDir === 'asc' ? '↑' : '↓' }}
+                                            {{ $sortDir === 'ASC' ? '↑' : '↓' }}
                                         @endif
                                     </th>
                                     <th width="5%">Status</th>
@@ -110,6 +116,7 @@
                                         <td>{{ $li_data->gender }}</td>
                                         <td>{{ $li_data->agama }}</td>
                                         <td>{{ $li_data->alamat }}</td>
+                                        <td>{{ $li_data->warga_negara }}</td>
                                         <td>{{ $li_data->divisi }}</td>
                                         <td>{{ $li_data->jabatan }}</td>
                                         <td>{{ $li_data->grade }}</td>
@@ -122,7 +129,7 @@
                                         <td>{{ $li_data->nama_rek }}</td>
                                         <td class="col-hide">{{ $li_data->f_status }}</td>
                                         <td>{{ $li_data->status }}</td>
-                                        @include('components.template.tbview-button-1')
+                                        @include('components.template.tbview-button')
                                     </tr>
                                 @empty
                                     @include('components.template.no-data-table')
@@ -234,9 +241,24 @@
                                 <div class="spanerror">{{ $message }}</div>
                             @enderror
                         </div>
-
-
-
+                        <div class="mb-2">
+                            <label>Warga Negara</label>
+                            <div class="input-group">
+                                <input wire:model="f_warga_negara_tag" id="f_warga_negara_tag" type="text"
+                                    onchange="@this.set('f_warga_negara_tag', this.value);"
+                                    class="form-control onlyread @error('f_warga_negara') is-invalid @enderror"
+                                    readonly>
+                                <input wire:model="f_warga_negara" id="f_warga_negara" name="f_warga_negara"
+                                    type="text" onchange="@this.set('f_warga_negara', this.value);"
+                                    class="form-control" hidden>
+                                <button class="btn btn-success listdata" type="button" data-idinput="f_warga_negara"
+                                    data-poptitle="Warga Negara" data-tblist="list_warga_negara" data-type="0"><i
+                                        class="ti ti-search"></i></button>
+                            </div>
+                            @error('f_warga_negara')
+                                <div class="spanerror">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="row  bg-secondary-subtle mb-2 rounded-1 pt-1">

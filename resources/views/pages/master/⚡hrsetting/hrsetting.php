@@ -11,6 +11,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\IndexExport;
+use App\Models\M_mt_karyawan;
+use App\Models\M_mt_pay_component;
 use App\Models\M_mt_periode;
 use App\Models\M_mt_ter_ptkp;
 
@@ -18,7 +20,16 @@ new class extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $id_header, $nama, $ket, $grup, $nilai, $persen, $tanggal, $tanggal_mulai, $f_status, $f_status_tag, $f_org, $f_org_tag;
+    public $id_header, $nama, $ket, $grup, $nilai, $persen, $f_status, $f_status_tag, $f_org, $f_org_tag;
+    public $tanggal, $tanggal_mulai;
+    public $kode, $pay_tipe, $pay_grup, $pay_set, $pay_tax, $ket_rumusan, $ket2, $ket3;
+    public $NIK;
+    public $tunjangan_gaji_pokok = 0;
+    public $tunjangan_inf_jabatan = 0;
+    public $tunjangan_inf_transport = 0;
+    public $tunjangan_pot_bpjs = 0;
+    public $tunjangan_pot_jabatan = 0;
+    public $tunjangan_pot_jamsostek = 0;
 
     public $filterSearch = '', $filterStatus = '2', $listCount = '0';
     public $sortField = '', $sortDir = '';
@@ -44,11 +55,22 @@ new class extends Component
         $currentPage = Paginator::resolveCurrentPage();
 
         if ($this->activeTab === 'tab1') {
-            $query = "";
-            $allRecords = "";
-            $totalRecords = 0;
+            $query = M_mt_pay_component::detail('', 1, $this->filterSearch, $this->filterStatus);
+            if ($this->sortField !== '') {
+                $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            }
+            $allRecords = DB::select($query);
+            $totalRecords = count($allRecords);
             $this->listCount = $totalRecords;
-            $paginator = "";
+
+            // 2. Manually slice the array
+            $offset = $currentPage * $perPage - $perPage;
+            $itemsForCurrentPage = array_slice($allRecords, $offset, $perPage);
+            // 3. Instantiate LengthAwarePaginator
+            $paginator = new LengthAwarePaginator($itemsForCurrentPage, $totalRecords, $perPage, $currentPage, [
+                'path' => request()->path(),
+                'query' => request()->query(),
+            ]);
         } else if ($this->activeTab === 'tab2') {
             $query = M_mt_ptkp::detail('', 1, $this->filterSearch, $this->filterStatus);
             if ($this->sortField !== '') {
@@ -83,13 +105,29 @@ new class extends Component
                 'path' => request()->path(),
                 'query' => request()->query(),
             ]);
-        } else {
-
+        } else if ($this->activeTab === 'tab4') {
             $query = M_mt_periode::detail('', 1, $this->filterSearch, $this->filterStatus);
             if ($this->sortField !== '') {
                 $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
             }
 
+            $allRecords = DB::select($query);
+            $totalRecords = count($allRecords);
+            $this->listCount = $totalRecords;
+
+            // 2. Manually slice the array
+            $offset = $currentPage * $perPage - $perPage;
+            $itemsForCurrentPage = array_slice($allRecords, $offset, $perPage);
+            // 3. Instantiate LengthAwarePaginator
+            $paginator = new LengthAwarePaginator($itemsForCurrentPage, $totalRecords, $perPage, $currentPage, [
+                'path' => request()->path(),
+                'query' => request()->query(),
+            ]);
+        } else if ($this->activeTab === 'tab5') {
+            $query = M_mt_karyawan::detail('', 1, $this->filterSearch, $this->filterStatus);
+            if ($this->sortField !== '') {
+                $query .= " ORDER BY " . $this->sortField . " " . $this->sortDir;
+            }
             $allRecords = DB::select($query);
             $totalRecords = count($allRecords);
             $this->listCount = $totalRecords;
@@ -125,8 +163,19 @@ new class extends Component
 
         if ($this->id_header !== "") {
 
-
             if ($this->activeTab === 'tab1') {
+                $data_render = M_mt_pay_component::detail($this->id_header);
+                $this->id_header = $data_render->id;
+                $this->kode = $data_render->kode;
+                $this->pay_tipe = $data_render->pay_tipe;
+                $this->pay_grup = $data_render->pay_grup;
+                $this->pay_set = $data_render->pay_set;
+                $this->pay_tax = $data_render->pay_tax;
+                $this->nilai = $data_render->nilai;
+                $this->ket_rumusan = $data_render->ket_rumusan;
+                $this->ket = $data_render->ket;
+                $this->ket2 = $data_render->ket2;
+                $this->ket3 = $data_render->ket3;
             } else if ($this->activeTab === 'tab2') {
                 $data_render = M_mt_ptkp::detail($this->id_header);
                 $this->id_header = $data_render->id;
@@ -146,7 +195,7 @@ new class extends Component
                 $this->f_status_tag = $data_render->status;
                 $this->f_org = $data_render->f_org;
                 $this->f_org_tag = $data_render->org;
-            } else {
+            } else if ($this->activeTab === 'tab4') {
                 $data_render =  M_mt_periode::detail($this->id_header);
                 $this->id_header = $data_render->id;
                 $this->tanggal = $data_render->tanggal;
@@ -155,6 +204,20 @@ new class extends Component
                 $this->f_status_tag = $data_render->status;
                 $this->f_org = $data_render->f_org;
                 $this->f_org_tag = $data_render->org;
+            } else if ($this->activeTab === 'tab5') {
+                $data_render =  M_mt_karyawan::detail($this->id_header);
+                $this->id_header = $data_render->id;
+                $this->nama = $data_render->nama;
+                $this->NIK = $data_render->NIK;
+                $tunjangan = json_decode($data_render->tunjangan ?? '{}', true);
+                $pendapatan = is_array($tunjangan['pendapatan'] ?? null) ? $tunjangan['pendapatan'] : [];
+                $pengurangan = is_array($tunjangan['pengurangan'] ?? null) ? $tunjangan['pengurangan'] : [];
+                $this->tunjangan_gaji_pokok = $pendapatan['gaji_pokok'] ?? 0;
+                $this->tunjangan_inf_jabatan = $pendapatan['inf_jabatan'] ?? 0;
+                $this->tunjangan_inf_transport = $pendapatan['inf_transport'] ?? 0;
+                $this->tunjangan_pot_bpjs = $pengurangan['pot_bpjs'] ?? 0;
+                $this->tunjangan_pot_jabatan = $pengurangan['pot_jabatan'] ?? 0;
+                $this->tunjangan_pot_jamsostek = $pengurangan['pot_jamsostek'] ?? 0;
             }
         }
 
@@ -168,6 +231,18 @@ new class extends Component
         // ==================================== VALID INPUT =======================================
 
         if ($this->activeTab === 'tab1') {
+            $this->valid_role = [
+                'kode' => 'required|max:250|unique:mt_pay_component,kode,' . $this->id_header,
+                'pay_tipe' => 'required|max:250',
+                'pay_grup' => 'required|max:250',
+                'pay_set' => 'required|max:250',
+                'pay_tax' => 'required|max:250',
+                'nilai' => 'required',
+                'ket_rumusan' => 'max:500',
+                'ket' => 'max:500',
+                'ket2' => 'max:500',
+                'ket3' => 'max:500',
+            ];
         } else if ($this->activeTab === 'tab2') {
             $this->valid_role = [
                 'nama' => 'required|max:250|unique:mt_ptkp,nama,' . $this->id_header,
@@ -183,12 +258,23 @@ new class extends Component
                 'f_status' => 'required',
                 'f_org' => 'required',
             ];
-        } else {
+        } else if ($this->activeTab === 'tab4') {
             $this->valid_role = [
                 'tanggal' => 'required',
                 'tanggal_mulai' => 'required',
                 'f_status' => 'required',
                 'f_org' => 'required',
+            ];
+        } else if ($this->activeTab === 'tab5') {
+            $this->valid_role = [
+                'nama' => 'required|max:250|unique:mt_karyawan,nama,' . $this->id_header,
+                'NIK' => 'required|max:250|unique:mt_karyawan,NIK,' . $this->id_header,
+                'tunjangan_gaji_pokok' => 'required',
+                'tunjangan_inf_jabatan' => 'required',
+                'tunjangan_inf_transport' => 'required',
+                'tunjangan_pot_bpjs' => 'required',
+                'tunjangan_pot_jabatan' => 'required',
+                'tunjangan_pot_jamsostek' => 'required',
             ];
         }
 
@@ -217,7 +303,18 @@ new class extends Component
             try {
 
                 if ($this->activeTab === 'tab1') {
-                    $data_store = "";
+                    $data_store = [
+                        'kode' => $this->kode,
+                        'pay_tipe' => $this->pay_tipe,
+                        'pay_grup' => $this->pay_grup,
+                        'pay_set' => $this->pay_set,
+                        'pay_tax' => $this->pay_tax,
+                        'nilai' => $this->nilai == '' ? 0 : str_replace(',', '', $this->nilai),
+                        'ket_rumusan' => $this->ket_rumusan == '' ? NULL : $this->ket_rumusan,
+                        'ket' => $this->ket == '' ? NULL : $this->ket,
+                        'ket2' => $this->ket2 == '' ? NULL : $this->ket2,
+                        'ket3' => $this->ket3 == '' ? NULL : $this->ket3,
+                    ];
                 } else if ($this->activeTab === 'tab2') {
                     $data_store = [
                         'nama' => $this->nama,
@@ -228,17 +325,32 @@ new class extends Component
                 } else if ($this->activeTab === 'tab3') {
                     $data_store = [
                         'grup' => $this->grup,
-                        'nilai' => $this->nilai,
-                        'persen' => $this->persen,
+                        'nilai' => $this->nilai == '' ? 0 : str_replace(',', '', $this->nilai),
+                        'persen' => $this->persen == '' ? 0 : str_replace(',', '', $this->persen),
                         'f_status' => $this->f_status,
                         'f_org' => $this->f_org,
                     ];
-                } else {
+                } else if ($this->activeTab === 'tab4') {
                     $data_store = [
                         'tanggal' => $this->tanggal,
                         'tanggal_mulai' => $this->tanggal_mulai,
                         'f_status' => $this->f_status,
                         'f_org' => $this->f_org,
+                    ];
+                } else if ($this->activeTab === 'tab5') {
+                    $data_store = [
+                        'tunjangan' => json_encode([
+                            'pendapatan' => [
+                                'gaji_pokok' => $this->tunjangan_gaji_pokok == '' ? 0 : str_replace(',', '', $this->tunjangan_gaji_pokok),
+                                'inf_jabatan' => $this->tunjangan_inf_jabatan == '' ? 0 : str_replace(',', '', $this->tunjangan_inf_jabatan),
+                                'inf_transport' => $this->tunjangan_inf_transport == '' ? 0 : str_replace(',', '', $this->tunjangan_inf_transport),
+                            ],
+                            'pengurangan' => [
+                                'pot_bpjs' => $this->tunjangan_pot_bpjs == '' ? 0 : str_replace(',', '', $this->tunjangan_pot_bpjs),
+                                'pot_jabatan' => $this->tunjangan_pot_jabatan == '' ? 0 : str_replace(',', '', $this->tunjangan_pot_jabatan),
+                                'pot_jamsostek' => $this->tunjangan_pot_jamsostek == '' ? 0 : str_replace(',', '', $this->tunjangan_pot_jamsostek),
+                            ],
+                        ], JSON_UNESCAPED_UNICODE),
                     ];
                 }
 
@@ -250,13 +362,15 @@ new class extends Component
                     $data_output = array_merge($data_store, $data_store_add);
 
                     if ($this->activeTab === 'tab1') {
-                        $execDB = "";
+                        $execDB = M_mt_pay_component::create($data_output);
                     } else if ($this->activeTab === 'tab2') {
                         $execDB = M_mt_ptkp::create($data_output);
                     } else if ($this->activeTab === 'tab3') {
                         $execDB = M_mt_ter_ptkp::create($data_output);
-                    } else {
+                    } else if ($this->activeTab === 'tab4') {
                         $execDB = M_mt_periode::create($data_output);
+                    } else if ($this->activeTab === 'tab5') {
+                        $execDB = M_mt_karyawan::create($data_output);
                     }
 
 
@@ -269,13 +383,15 @@ new class extends Component
                     $data_output = array_merge($data_store, $data_store_add);
 
                     if ($this->activeTab === 'tab1') {
-                        $execDB = "";
+                        $execDB = M_mt_pay_component::withTrashed()->findOrFail($this->id_header)->update($data_output);
                     } else if ($this->activeTab === 'tab2') {
                         $execDB = M_mt_ptkp::withTrashed()->findOrFail($this->id_header)->update($data_output);
                     } else if ($this->activeTab === 'tab3') {
                         $execDB = M_mt_ter_ptkp::withTrashed()->findOrFail($this->id_header)->update($data_output);
-                    } else {
+                    } else if ($this->activeTab === 'tab4') {
                         $execDB = M_mt_periode::withTrashed()->findOrFail($this->id_header)->update($data_output);
+                    } else if ($this->activeTab === 'tab5') {
+                        $execDB = M_mt_karyawan::withTrashed()->findOrFail($this->id_header)->update($data_output);
                     }
 
 
@@ -296,13 +412,11 @@ new class extends Component
 
     public function sortBy($field)
     {
-        if ($this->activeTab !== 'tab1') {
-            if ($this->sortField === $field) {
-                $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
-            } else {
-                $this->sortDir = 'ASC';
-                $this->sortField = $field;
-            }
+        if ($this->sortField === $field) {
+            $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            $this->sortDir = 'ASC';
+            $this->sortField = $field;
         }
     }
 
@@ -332,6 +446,14 @@ new class extends Component
     public function delete($id)
     {
         try {
+            if ($this->activeTab === 'tab1') {
+                $postDelete = M_mt_pay_component::withTrashed()->findOrFail($id);
+                $postDelete->delete();
+
+                $postDelete->f_status = 1;
+                $postDelete->update();
+            }
+
             if ($this->activeTab === 'tab2') {
                 $postDelete = M_mt_ptkp::withTrashed()->findOrFail($id);
                 $postDelete->delete();
@@ -347,7 +469,6 @@ new class extends Component
                 $postDelete->f_status = 1;
                 $postDelete->update();
             }
-
 
             if ($this->activeTab === 'tab4') {
                 $postDelete = M_mt_periode::withTrashed()->findOrFail($id);
@@ -366,9 +487,9 @@ new class extends Component
     public function export($filetype)
     {
         if ($this->activeTab === 'tab1') {
-            $titleExport = 'Master' . ' ' . session('submenu_nama');
-            $headStandar = 1; //0 Header Not Standar, 1 Head Standar
-            $submenu_id = 'mt_komponen';
+            $titleExport = 'Master' . ' ' . ' Komponen Gaji';
+            $headStandar = 0; //0 Header Not Standar, 1 Head Standar
+            $submenu_id = 'mt_component';
         } else if ($this->activeTab === 'tab2') {
             $titleExport = 'Master' . ' ' . ' PTKP';
             $headStandar = 0; //0 Header Not Standar, 1 Head Standar
