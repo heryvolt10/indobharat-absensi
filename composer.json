@@ -16,7 +16,8 @@
         "livewire/livewire": "*",
         "maatwebsite/excel": "*",
         "mpdf/mpdf": "^8.3",
-        "spatie/laravel-activitylog": "^5.0"
+        "spatie/laravel-activitylog": "^5.0",
+        "spatie/laravel-backup": "^10.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

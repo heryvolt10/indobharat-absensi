@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -16,10 +17,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/logout', [App\Livewire\Auth\Login::class, 'logout'])->name('logout');
-
-
     // ===================================== ADMIN =====================================
-
     Route::livewire('/' . help_submenu(2)->url, 'pages::admin.dashboard')->name(help_submenu(2)->url . '.index');
     Route::livewire('/' . help_submenu(3)->url, 'pages::admin.role')->name(help_submenu(3)->url . '.index');
     Route::livewire('/' . help_submenu(4)->url, 'pages::admin.menu')->name(help_submenu(4)->url . '.index');
@@ -59,6 +57,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // MASTER HR & PAYROLL SETTING
     Route::livewire('/' . help_submenu(17)->url, 'pages::master.hrsetting')->name(help_submenu(17)->url . '.index');
+
+
+    Route::get('/backupdb', function () {
+        try {
+            // Execute the command with the --only-db option
+            Artisan::call('backup:run', ['--only-db' => true]);
+
+            // Return the output of the command for confirmation
+            return 'Backup successful! <br><pre>' . Artisan::output() . '</pre>';
+        } catch (\Exception $e) {
+            return 'Backup failed: ' . $e->getMessage();
+        }
+    });
 
     // ===================================== MASTER END=====================================
 });
