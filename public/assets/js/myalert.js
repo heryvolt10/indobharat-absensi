@@ -18,6 +18,18 @@
 //     }
 // }
 
+function loading_spin() {
+    Swal.fire({
+        title: "Data Proses",
+        html: "Mohon Menunggu...",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+}
+
 function loading_alert() {
     Swal.fire({
         title: "Data Proses",
@@ -51,6 +63,6 @@ function loading_download() {
                     showConfirmButton: false,
                 });
             }
-        }
+        },
     );
 }

@@ -9,8 +9,8 @@
 
 <body data-sidebartype="{{ session('ly_sidebar') == 'mini-sidebar' ? 'mini-sidebar' : 'full' }}">
     <!-- =======================================ALERT=================================== -->
-    <x-sweet-alert />
-    <x-sweet-alert-notime />
+    <x-template.sweet-alert />
+    <x-template.sweet-alert-notime />
     <!-- =======================================ALERT=================================== -->
 
     <!-- =======================================MAIN CONTENT=================================== -->

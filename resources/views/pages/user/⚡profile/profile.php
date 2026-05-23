@@ -184,6 +184,7 @@ new class extends Component {
 
                 $this->dispatch('sweet-alert', icon: 'success', title: 'Update Password Berhasil', text: '');
             } catch (\Exception $th) {
+                activity()->log($th->getMessage());
                 $this->dispatch('sweet-alert-notime', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
             }
         } catch (ValidationException $e) {

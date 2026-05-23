@@ -7,7 +7,7 @@
 
         @if ($accessSubMenu->isave == '1')
             <button id="btn_save" type="submit" class="btn btn-primary btn_frm_save rounded-1"
-                onclick="loading_alert();" wire:loading.attr='disabled' data-toggle="tooltip" data-placement="bottom"
+                onclick="loading_spin();" wire:loading.attr='disabled' data-toggle="tooltip" data-placement="bottom"
                 title="Simpan">
                 <i class="far fa-save"></i>
             </button>

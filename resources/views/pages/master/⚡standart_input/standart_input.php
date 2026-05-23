@@ -22,7 +22,7 @@ new class extends Component
     public $id_header, $nama, $ket, $f_status, $f_status_tag, $f_org, $f_org_tag, $logtable, $urlModel;
 
     public $filterSearch = '', $filterStatus = '2', $listCount = '0';
-    public $sortField = 'nama', $sortDir = 'asc';
+    public $sortField = 'nama', $sortDir = 'ASC';
 
     public $valid_role, $valid_mesage;
 
@@ -41,8 +41,6 @@ new class extends Component
         } else {
             abort('404');
         }
-
-        $this->js("changeStyleFilterStatus(" . $this->filterStatus . "); button_table_add_back_render(); setSubMenuMasterData();");
     }
 
     public function render()
@@ -183,7 +181,7 @@ new class extends Component
 
         $this->showForm = false;
         $this->showTable = true;
-        $this->js("changeStyleFilterStatus(" . $this->filterStatus . "); button_table_add_back_render()");
+        // $this->js("changeStyleFilterStatus(" . $this->filterStatus . "); button_table_add_back_render()");
     }
 
     public function updatedfilterSearch()

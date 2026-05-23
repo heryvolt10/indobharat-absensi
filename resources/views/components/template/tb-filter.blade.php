@@ -1,7 +1,13 @@
 <div wire:ignore>
     <div class="row mb-3">
         <div class="col-sm-auto me-auto d-flex mb-2 btn-group-sm button_filter_grup div_btn_index_1 p-0">
-            <div class="btn-group me-1 div_back_to_master"></div>
+            @if (isset($button_back_standart))
+                <div class="btn-group me-1 div_back_to_master">
+                    <a wire:navigate href="/{{ help_submenu(10)->url }}" type="button" id="btn_add_data"
+                        class="btn btn-primary rounded-1" data-toggle="tooltip" data-placement="bottom"
+                        title="Kembali Ke List Master Data"><i class="fas fa-arrow-left"></i></a>
+                </div>
+            @endif
 
             @if (!isset($no_button_add) || $no_button_add != '1')
                 @if ($accessSubMenu->iadd == 1)
@@ -73,8 +79,10 @@
             @endif
         </div>
         <div class=" col-md-4 div_btn_index_2 p-0">
-            <input id="filterSearch" type="search" wire:model.live.debounce.500ms="filterSearch" class="form-control"
-                placeholder="Cari Data....">
+            @if (!isset($no_search) || $no_search != '1')
+                <input id="filterSearch" type="search" wire:model.live.debounce.500ms="filterSearch"
+                    class="form-control" placeholder="Cari Data....">
+            @endif
         </div>
     </div>
 </div>

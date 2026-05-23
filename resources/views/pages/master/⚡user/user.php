@@ -186,7 +186,8 @@ new class extends Component
 
             $this->dispatch('sweet-alert', icon: 'success', title: 'Data Berhasil Di Hapus', text: '');
         } catch (\Exception $th) {
-            $this->dispatch('sweet-alert', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
+            activity()->log($th->getMessage());
+            $this->dispatch('sweet-alert-notime', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
         }
     }
 

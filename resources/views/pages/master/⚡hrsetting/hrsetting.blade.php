@@ -543,7 +543,7 @@
                                                     <td>{{ ($data_rows->currentPage() - 1) * $data_rows->perPage() + $loop->index + 1 }}
                                                     </td>
                                                     <td class="text-center">{{ $li_data->tanggal }}</td>
-                                                    <td class="text-end">{{ $li_data->tanggal_mulai }}</td>
+                                                    <td class="text-center">{{ $li_data->tanggal_mulai }}</td>
                                                     <td class="col-hide">{{ $li_data->f_status }}</td>
                                                     <td>{{ $li_data->status }}</td>
                                                     @include('components.template.tbview-button')

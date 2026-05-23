@@ -5,42 +5,176 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
+use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Artisan;
 
 new class extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination, WithoutUrlPagination;
 
     public $m_index;
+
+    public $id_header;
 
     public $app_name, $app_org, $app_website, $app_year, $app_address_org, $app_logo, $app_logo_upload, $app_logo_dark, $app_logo_dark_upload;
     public $vwimage_app_logo;
 
+    public $dbfile;
+
+
+    public $filterSearch = '', $filterStatus = '2', $listCount = '0';
+    public $sortField = '', $sortDir = '';
+
     public $valid_role, $valid_mesage;
+
+    public $showForm = false, $showTable = true;
+    public $activeTab = 'tab1';
+
 
     public function mount()
     {
         help_update_sess_submenu(6);
-
-        $this->m_index = new \App\Models\M_setting_app;
-        $data_row = $this->m_index::all()->toArray();
-
-        $this->app_name = $data_row[0]['value'];
-        $this->app_logo = $data_row[1]['value'];
-        $this->app_logo_dark = $data_row[2]['value'];
-        $this->app_website = $data_row[3]['value'];
-        $this->app_year = $data_row[4]['value'];
-        $this->app_org = $data_row[5]['value'];
-        $this->vwimage_app_logo = $data_row[1]['value'];
     }
 
     public function render()
     {
 
+        $perPage = 10; // Number of items per page
+        $currentPage = Paginator::resolveCurrentPage();
+        $data_rows = "";
+        if ($this->activeTab === 'tab1') {
+
+            $this->m_index = new \App\Models\M_setting_app;
+            $data_row = $this->m_index::all()->toArray();
+            $this->app_name = $data_row[0]['value'];
+            $this->app_logo = $data_row[1]['value'];
+            $this->app_logo_dark = $data_row[2]['value'];
+            $this->app_website = $data_row[3]['value'];
+            $this->app_year = $data_row[4]['value'];
+            $this->app_org = $data_row[5]['value'];
+            $this->vwimage_app_logo = $data_row[1]['value'];
+        } else if ($this->activeTab === 'tab2') {
+            $allFiles = Storage::files('BackupDB');
+            $filesWithTime = array_map(function ($file) {
+                return [
+                    'path' => $file,
+                    'timestamp' => date('Y-m-d H:i:s', Storage::lastModified($file))
+                ];
+            }, $allFiles);
+
+            usort($filesWithTime, function ($a, $b) {
+                return $b['timestamp'] <=> $a['timestamp'];
+            });
+
+
+            $currentItems = array_slice($filesWithTime, ($currentPage - 1) * $perPage, $perPage);
+
+
+            $paginatedFiles = new LengthAwarePaginator(
+                $currentItems,
+                count($filesWithTime),
+                $perPage,
+                $currentPage,
+                ['path' => LengthAwarePaginator::resolveCurrentPath()]
+            );
+
+            $data_rows = $paginatedFiles;
+        }
+
         return $this->view([
             'tb_list_status' => help_get_status(1),
             'accessSubMenu' => help_user_access_submenu(session('submenu_id')),
+            'data_rows' => $data_rows,
+
         ])->title(session('menu_nama') . '-' . session('submenu_nama'));
     }
+
+    // public function store($id = "")
+    // {
+    //     $this->resetValidation();
+    //     $this->resetExcept([
+    //         'filterSearch',
+    //         'filterStatus',
+    //         'activeTab',
+    //     ]);
+
+    //     $this->id_header = $id;
+
+    //     if ($this->id_header !== "") {
+
+    //         if ($this->activeTab === 'tab1') {
+    //             $this->m_index = new \App\Models\M_setting_app;
+    //             $data_row = $this->m_index::all()->toArray();
+    //             $this->app_name = $data_row[0]['value'];
+    //             $this->app_logo = $data_row[1]['value'];
+    //             $this->app_logo_dark = $data_row[2]['value'];
+    //             $this->app_website = $data_row[3]['value'];
+    //             $this->app_year = $data_row[4]['value'];
+    //             $this->app_org = $data_row[5]['value'];
+    //             $this->vwimage_app_logo = $data_row[1]['value'];
+    //         } else if ($this->activeTab === 'tab2') {
+    //         }
+    //     }
+
+    //     $this->showForm = true;
+    //     $this->showTable = false;
+    // }
+
+    public function setTab($tab)
+    {
+        $this->showForm = false;
+        $this->showTable = true;
+        $this->reset([
+            'filterSearch',
+            'filterStatus',
+            'activeTab',
+            'sortField',
+            'sortDir',
+        ]);
+        $this->activeTab = $tab;
+
+        // $this->js("changeStyleFilterStatus(" . $this->filterStatus . ", '" . help_get_status_by_id($this->filterStatus)->nama . "'); ");
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDir = $this->sortDir === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            $this->sortDir = 'ASC';
+            $this->sortField = $field;
+        }
+    }
+
+
+
+
+    public function download_db($path)
+    {
+
+        try {
+
+            return Storage::download($path);
+        } catch (\Exception $th) {
+            activity()->log($th->getMessage());
+            $this->dispatch('sweet-alert-notime', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
+        }
+    }
+
+    public function backup_db()
+    {
+        try {
+            Artisan::call('backup:run --only-db --disable-notifications');
+            $this->dispatch('sweet-alert', icon: 'success', title: 'Database berhasil di backup', text: '');
+        } catch (\Exception $th) {
+            activity()->log($th->getMessage());
+            $this->dispatch('sweet-alert-notime', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
+        }
+    }
+
 
     public function save()
     {
@@ -214,6 +348,7 @@ new class extends Component
                 $this->dispatch('sweet-alert', icon: 'success', title: 'Data Berhasil Di Update', text: '');
                 $this->resetValidation();
             } catch (\Exception $th) {
+                activity()->log($th->getMessage());
                 $this->dispatch('sweet-alert-notime', icon: 'error', title: 'Terjadi kesalahan sistem!', text: $th->getMessage());
             }
         }
